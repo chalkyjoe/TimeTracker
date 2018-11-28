@@ -1,6 +1,4 @@
-export const ADD_TODO = 'ADD_TODO';
-export const DELETE_TODO = 'DELETE_TODO';
-export const EDIT_TODO = 'EDIT_TODO';
-export const COMPLETE_TODO = 'COMPLETE_TODO';
-export const COMPLETE_ALL = 'COMPLETE_ALL';
-export const CLEAR_COMPLETED = 'CLEAR_COMPLETED';
+export const INCREMENT_TIME = 'INCREMENT_TIME';
+export const ADD_TICKET = 'ADD_TICKET';
+export const DELETE_TICKET = 'DELETE_TICKET';
+export const EDIT_TICKET = 'EDIT_TICKET';

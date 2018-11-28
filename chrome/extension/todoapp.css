@@ -30,9 +30,22 @@ body {
   -ms-font-smoothing: antialiased;
   font-smoothing: antialiased;
   font-weight: 300;
+  padding: .5rem 1rem;
 }
 
 button,
 input[type="checkbox"] {
   outline: none;
+}
+button {
+  padding:1rem 1rem;
+  background: #BF2600;
+  color: hsl(0, 0%, 90%);
+  border:0;
+  font-size:1rem;
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+}
+button:disabled {
+  background-color: hsl(0, 0%, 60%);
+  color: hsl(0, 0%, 10%);
 }

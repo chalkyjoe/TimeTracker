@@ -1,0 +1,78 @@
+.progress {
+	margin: 1rem 0;
+	height:20px;
+	background-color: #999;
+	border-radius: 20px;
+	border: 3px solid rgb(7, 71, 166);
+	box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+	position: relative;
+	box-sizing: content-box;
+}
+.progress label {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+    color: hsl(0, 0%, 0%);
+	font-weight: bold;
+	text-shadow: 1px 1px hsl(0, 0%, 80%);
+}
+.progress span {
+	display: inline-block;
+	height: 20px;
+	margin:0;
+	border-right:1px solid hsl(0, 0%, 35%);
+}
+.progress span:nth-child(2)
+{
+	border-radius: 20px 0 0 20px;
+	background-color: #DE350B;
+}
+.progress span:nth-child(3)
+{
+	background-color: #FF8B00;
+}
+.progress span:nth-child(4)
+{
+	background-color: #FF991F;
+}
+.progress span:nth-child(5)
+{
+	background-color: #BF2600;
+}
+.progress span:nth-child(6)
+{
+	background-color: #006644;
+}
+.progress span:nth-child(7)
+{
+	background-color: #00875A;
+}
+.progress span:nth-child(8)
+{
+	background-color: #008DA6;
+}
+.progress span:nth-child(9)
+{
+	background-color: #00A3BF;
+}
+.progress span:nth-child(10)
+{
+	background-color: #0747A6;
+}
+.progress span:nth-child(11)
+{
+	background-color: #0747A6;
+}
+.progress span:nth-child(12)
+{
+	background-color: #403294;
+}
+.progress span:nth-child(13)
+{
+	background-color: #5243AA;
+}
+.progress span:last-child
+{
+	border-radius: 0px 20px 20px 0;
+	border: 0;
+}

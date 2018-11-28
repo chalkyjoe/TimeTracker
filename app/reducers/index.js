@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import todos from './todos';
+import tickets from './tickets';
 
 export default combineReducers({
-  todos
+  tickets
 });

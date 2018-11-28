@@ -3,31 +3,35 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import MainSection from '../components/MainSection';
-import * as TodoActions from '../actions/todos';
+import CurrentTicket from '../components/CurrentTicket';
+import ChangeTicket from '../components/ChangeTicket';
+import ProgressBar from '../components/ProgressBar';
+import * as TicketActions from '../actions/tickets';
 import style from './App.css';
 
 @connect(
   state => ({
-    todos: state.todos
+    tickets: state.tickets
   }),
   dispatch => ({
-    actions: bindActionCreators(TodoActions, dispatch)
+    actions: bindActionCreators(TicketActions, dispatch)
   })
 )
 export default class App extends Component {
 
   static propTypes = {
-    todos: PropTypes.array.isRequired,
+    tickets: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
   };
 
   render() {
-    const { todos, actions } = this.props;
-
+    const { tickets, actions } = this.props;
     return (
-      <div className={style.normal}>
-        <Header addTodo={actions.addTodo} />
-        <MainSection todos={todos} actions={actions} />
+      <div className={style.progress}>
+        <h1>TimeTracker</h1>
+        <CurrentTicket ticket={tickets[0]} incrementTime={actions.incrementTime} />
+        <ChangeTicket addTicket={actions.addTicket} />
+        <ProgressBar tickets={tickets} />
       </div>
     );
   }
