@@ -1,0 +1,26 @@
+.listContainer {
+	background-color: white;
+    width: 100%;
+    height: 200px;
+    overflow: auto;
+    padding: 0;
+    margin: 0;
+    box-shadow: inset 1px 1px 1px 1px black;
+}
+.listContainer li {
+	text-shadow: 1px 1px black;
+	margin: .5rem;
+	padding: .25rem;
+	color: white;
+	box-shadow: 1px 1px 1px 1px black;
+    position: relative;
+}
+.listContainer li label {
+	background-color: white;
+	border-radius: 10px;
+	position: absolute;
+	right: 0;
+	margin-right: .5rem;
+	text-align: center;
+	padding: 0 .5rem;
+}

@@ -19,5 +19,5 @@
     "page": "background.html"
   },
   "permissions": [ "contextMenus", "tabs", "storage", "https://github.com/*" ],
-  "content_security_policy": "default-src 'self'; script-src 'self'; style-src * 'unsafe-inline'; img-src 'self' data:;"
+    "content_security_policy": "default-src 'self' https://udgroup.atlassian.net/; script-src 'self' http://localhost:3000 https://localhost:3000 'unsafe-eval'; connect-src *://localhost:3000 https://udgroup.atlassian.net; style-src * 'unsafe-inline' 'self' blob:; img-src 'self' data:;"
 }

@@ -2,3 +2,5 @@ export const INCREMENT_TIME = 'INCREMENT_TIME';
 export const ADD_TICKET = 'ADD_TICKET';
 export const DELETE_TICKET = 'DELETE_TICKET';
 export const EDIT_TICKET = 'EDIT_TICKET';
+export const COMPLETE_TICKET = 'COMPLETE_TICKET';
+export const FINISH_DAY = 'FINISH_DAY';

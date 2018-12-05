@@ -5,8 +5,8 @@ export function incrementTime(id)
  return { type: types.INCREMENT_TIME, id };
 }
 
-export function addTicket(name) {
-  return { type: types.ADD_TICKET, name };
+export function addTicket(name, colour) {
+  return { type: types.ADD_TICKET, name, colour };
 }
 
 export function deleteTicket(id) {
@@ -15,4 +15,10 @@ export function deleteTicket(id) {
 
 export function editTicket(id, time) {
   return { type: types.EDIT_TICKET, id, time };
+}
+export function completeCurrentTicket() {
+	return {type: types.COMPLETE_TICKET };
+}
+export function FinishDay() {
+	return {type: types.FINISH_DAY };
 }

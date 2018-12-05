@@ -15,9 +15,14 @@ body {
   box-sizing: border-box;
 }
 h1 {
-  padding-top: .25rem;
+  padding: .5rem 0;
   font-family: "helvetica";
   border-left: 4px solid #73A0E3;
   padding-left: .3rem;
   color: #091E42;
+}
+.inlineButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }

@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import MainSection from '../components/MainSection';
 import CurrentTicket from '../components/CurrentTicket';
+import TicketList from '../components/TicketList';
 import ChangeTicket from '../components/ChangeTicket';
 import ProgressBar from '../components/ProgressBar';
+import FinishDay from '../components/FinishDay';
+import * as TicketTypes from '../constants/TicketTypes';
 import * as TicketActions from '../actions/tickets';
 import style from './App.css';
 
@@ -29,9 +32,15 @@ export default class App extends Component {
     return (
       <div className={style.progress}>
         <h1>TimeTracker</h1>
-        <CurrentTicket ticket={tickets[0]} incrementTime={actions.incrementTime} />
-        <ChangeTicket addTicket={actions.addTicket} />
+        <CurrentTicket ticket={tickets.find(function (element) { return element.completed == false})} incrementTime={actions.incrementTime}/>
         <ProgressBar tickets={tickets} />
+        <ChangeTicket actions={actions} ticketType={TicketTypes.TICKET} text="Change to this Ticket"  />
+        <div className={style.inlineButtons}>
+          <ChangeTicket actions={actions} ticketType={TicketTypes.MEETING}/>
+          <ChangeTicket actions={actions} ticketType={TicketTypes.BREAK} />
+        </div>
+        <FinishDay finishDay={actions.FinishDay} ticketCount={tickets.length}/>
+        <TicketList tickets={tickets} />
       </div>
     );
   }

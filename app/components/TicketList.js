@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import style from './ProgressBar.css';
+import style from './TicketList.css';
 import * as TicketTypes from '../constants/TicketTypes';
 import * as TimeHelper from '../utils/TimeHelper';
 import moment from 'moment';
 import * as Config from '../utils/Config';
 
-export default class ProgressBar extends Component {
+export default class TicketList extends Component {
 
   static propTypes = {
     tickets: PropTypes.array.isRequired
@@ -21,23 +21,11 @@ export default class ProgressBar extends Component {
     let segments = [];
     var percent = 0;
     for (let i = 0; i < tickets.length; i++) {
-      var width = tickets[i].width;
-      
-      if (percent + width >= 100)
-      {
-        width = 100 - percent;
-      }
-
-      percent += width;
       var style = {
-        width: width + '%',
-        background: tickets[i].colour,
-        borderRadius: tickets.length == 1 && i == 0 ? '20px' :
-                      i == 0 ? '20px 0 0 20px' : 
-                      i == tickets.length-1 ? '0 20px 20px 0' :
-                      ''
+        background: tickets[i].colour
       };
-      segments.push(<span style={style}></span>);
+      var ticket = tickets[i];
+      segments.push(<li style={style}>{ticket.name}  <label>{TimeHelper.FormatTime(ticket.duration)}</label></li>);
     }
     return segments;
   }
@@ -57,11 +45,9 @@ export default class ProgressBar extends Component {
     var table = this.CreateTable()
     return (
       <div style={{position: 'relative'}}>
-        <div className={style.progress}>
-          <label>{this.getTotalTime()}</label>
+        <ul className={style.listContainer}>
           {table}
-        </div>
-        <div className={style.progress + ' ' + style.progressOverlay}></div>
+        </ul>
       </div>
     );
   }

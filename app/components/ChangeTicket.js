@@ -2,43 +2,41 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import style from './ChangeTicket.css';
 import * as TicketTypes from '../constants/TicketTypes';
-import * as TimeHelper from '../Utils/TimeHelper';
+import * as TimeHelper from '../utils/TimeHelper';
 import * as Config from '../utils/Config';
+import * as TicketTypeConfig from '../utils/TicketTypeConfig';
 
 export default class ChangeTicket extends Component {
 
   static propTypes = {
-    addTicket:  PropTypes.func.isRequired
+    actions:  PropTypes.func.isRequired,
+    ticketType: PropTypes.string.isRequired
   };
-
   constructor(props, context) {
     super(props, context);
+    this.ticketConfigProvider = TicketTypeConfig.getTicketTypeConfig(this.props.ticketType);
     this.state = {
-      canChange: false,
-      ticketNo: null
+      canChange: true,
+      ticketNo: '',
     };
+    this.setCanChange();
   }
 
   handleOnClick = () => {
-    this.props.addTicket(this.state.ticketNo);
+    this.ticketConfigProvider.onClick(this.props.actions, this.state, this.props);
   }
-  isTicket(url) {
-    return url.includes(Config.getBaseUrl());
+
+  setCanChange()
+  {
+    var self = this;
+    this.ticketConfigProvider.setIsEnabled(this.props.ticketType, function(response) {
+      self.state = response;
+    })
   }
 
   render() {
-    var self = this;
-    chrome.tabs.query({'active': true}, function (tabs) {
-      var url = tabs[0].url;
-      var baseUrl = Config.getBaseUrl();
-      var ticketNo = url.replace(baseUrl, '');
-      self.setState({
-        canChange: self.isTicket(url),
-        ticketNo
-      });
-    });
     return (
-      <button className={style.btnChange} onClick={this.handleOnClick} disabled={!this.state.canChange}>Change to this ticket</button>
+      <button className={style[this.props.ticketType]} onClick={this.handleOnClick} disabled={!this.state.canChange}>{this.ticketConfigProvider.text}</button>
     );
   }
 }
