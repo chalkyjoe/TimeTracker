@@ -1,0 +1,33 @@
+.modalBackground {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background-color: hsla(0, 0%, 10%, 0.6);
+}
+.modalClosed {
+	display: none;
+}
+.modal {
+	position: relative;
+	width: 75%;
+	margin: auto;
+	background-color: hsl(0, 0%, 100%);
+	height: auto;
+	margin-top: 2rem;
+	box-shadow: 5px 5px 5px 5px hsla(0, 0%, 0%, .5);
+	border-radius: 5px;
+	padding:1rem;
+}
+.durationInput {
+	width: 50px;
+}
+.closeButton {
+	position: absolute;
+	top:0;
+	right:0;
+	color: black;
+	padding: .25rem;
+	cursor: pointer;
+}

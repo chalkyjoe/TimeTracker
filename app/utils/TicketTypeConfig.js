@@ -12,9 +12,9 @@ export function getTicketTypeConfig(ticketType) {
 				text: 'Change Ticket',
 				setIsEnabled: function(type, callback) {
 				    if (ticketType != TicketTypes.TICKET) return true;
-				    chrome.tabs.query({'active': true}, function (tabs) {
-				      var url = tabs[0].url;
-				      var baseUrl = Config.getBaseUrl() + '/browse/';
+				    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
+				      var url = tabs[0].url.split('?')[0];
+				      var baseUrl = "https://" + Config.getBaseUrl() + '/browse/';
 				      var ticketNo = url.replace(baseUrl, '');
 				      callback({
 				      	canChange: url.includes(baseUrl),
@@ -51,7 +51,7 @@ export function getTicketTypeConfig(ticketType) {
 			setIsEnabled: function(type, callback) {
 				return callback({
 				      	canChange: true,
-				      	ticketNo: 'UDGINT-11'
+				      	ticketNo: Config.getMeetingTicketNo()
 				      });;
 			},
 			onClick: function(actions, state, props) {

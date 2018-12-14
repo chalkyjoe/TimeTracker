@@ -51,17 +51,34 @@ export default class ProgressBar extends Component {
 
     return TimeHelper.FormatTime(duration) + '/' + dayLength + ' (' + Math.floor(percent) + '%)';
   }
+  getTimeStart = () => {
+    var tickets = this.props.tickets;
+    if (tickets.length == 0) return;
+    var time = tickets[0].timeStarted;
+    return moment(time, 'X').format('hh:mma');
+  }
+
+  getTimeEnd = () => {
+    var tickets = this.props.tickets;
+    if (tickets.length == 0) return;
+    var time = tickets[0].timeStarted;
+    return moment(time + TimeHelper.ParseTime(Config.getDayLength()), 'X').format('hh:mma');
+  }
 
   render() {
-    const { ticket } = this.props;
+    const { tickets } = this.props;
     var table = this.CreateTable()
     return (
-      <div style={{position: 'relative'}}>
-        <div className={style.progress}>
-          <label>{this.getTotalTime()}</label>
-          {table}
+      <div>
+        <span style={{fontWeight: 'bold'}}>{this.getTimeStart()}</span>
+        <span style={{float: 'right', fontWeight: 'bold'}}>{this.getTimeEnd()}</span>
+        <div style={{position: 'relative'}}>
+          <div className={style.progress}>
+            <label>{this.getTotalTime()}</label>
+            {table}
+          </div>
+          <div className={style.progress + ' ' + style.progressOverlay}></div>
         </div>
-        <div className={style.progress + ' ' + style.progressOverlay}></div>
       </div>
     );
   }

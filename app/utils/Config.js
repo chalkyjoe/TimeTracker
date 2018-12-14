@@ -1,7 +1,7 @@
 import * as TimeHelper from './TimeHelper.js';
 
 export function getBaseUrl() {
-	return 'https://udgroup.atlassian.net';
+	return 'udgroup.atlassian.net';
 }
 
 export function getDayLength() {

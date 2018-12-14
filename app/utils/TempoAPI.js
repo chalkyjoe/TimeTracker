@@ -9,7 +9,7 @@ export function LogWork(ticket)
 	};
 
 	GenericFetch(`issue/${ticket.name}/worklog`, json, 'POST').then(function(response) {
-      console.log(response);
+      console.log(response.json());
     });
 }
 
@@ -17,13 +17,14 @@ function GenericFetch(endpoint, json, method, callback)
 {
 	var tok = Config.getUsername() + ':' + Config.getAccessCode();
   	var hash = btoa(tok);
-	return fetch(`${Config.getBaseUrl()}/rest/api/3/${endpoint}`, {
+	return fetch(`http://localhost:8080/https://${Config.getBaseUrl()}/rest/api/3/${endpoint}`, {
 	  method,
 	  headers: {
 	    'Accept': 'application/json',
 	    'Content-Type': 'application/json',
 	    'Authorization': 'Basic ' + hash,
-	    'Origin': ''
+	    'Origin': '',
+	    'Access-Control-Allow-Origin': '*'
 	  },
 	  body: JSON.stringify(json)
 	})

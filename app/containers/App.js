@@ -8,6 +8,7 @@ import TicketList from '../components/TicketList';
 import ChangeTicket from '../components/ChangeTicket';
 import ProgressBar from '../components/ProgressBar';
 import FinishDay from '../components/FinishDay';
+import Modal from '../components/Modal';
 import * as TicketTypes from '../constants/TicketTypes';
 import * as TicketActions from '../actions/tickets';
 import style from './App.css';
@@ -41,6 +42,7 @@ export default class App extends Component {
         </div>
         <FinishDay finishDay={actions.FinishDay} ticketCount={tickets.length}/>
         <TicketList tickets={tickets} />
+        <Modal />
       </div>
     );
   }
