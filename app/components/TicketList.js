@@ -20,11 +20,12 @@ export default class TicketList extends Component {
     const { tickets } = this.props;
     let segments = [];
     var percent = 0;
-    for (let i = 0; i < tickets.length; i++) {
-      var style = {
-        background: tickets[i].colour
-      };
+    for (let i = tickets.length-1; i >= 0; i--) {
       var ticket = tickets[i];
+      var style = {
+        background: ticket.colour
+      };
+      
       segments.push(<li style={style}>{ticket.name}  <label>{TimeHelper.FormatTime(ticket.duration)}</label></li>);
     }
     return segments;
