@@ -14,21 +14,18 @@ export default class Modal extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      open: false
+      open: this.props.open
     };
   }
   closeModal = () => {
-    this.setState(open: false);
+    this.props.open = false;
   }
   render() {
     return (
-      <div className={this.state.open ? style.modalBackground : style.modalClosed}>
+      <div className={this.props.open ? style.modalBackground : style.modalClosed}>
         <div className={style.modal}>
-          <div className={style.closeButton}>Close</div>
-          <h2>Complete Ticket</h2>
-          <p><input type="checkbox" /><label>Move to Dev Complete?</label></p>
-          <p><label>Duration</label> <input className={style.durationInput}/></p>
-          <button>Submit</button>
+          <div className={style.closeButton} onClick={this.closeModal()}>Close</div>
+          {this.props.children}
         </div>
       </div>
     );

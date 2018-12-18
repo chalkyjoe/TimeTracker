@@ -5,6 +5,7 @@ import * as ColourStore from '../utils/ColourStorage';
 import * as TimeHelper from '../utils/TimeHelper';
 import * as TempoAPI from '../utils/TempoAPI';
 import moment from 'moment';
+import _ from 'underscore';
 
 const initialState = [];
 
@@ -14,23 +15,35 @@ const actionsMap = {
     return state.map(ticket => 
       ticket.id === action.id ?
       Object.assign({}, ticket, {
-        duration: moment().unix() - ticket.timeStarted,
+        duration: moment().unix() - ticket.timeStarted + ticket.durationSaved,
         width: (ticket.duration / (TimeHelper.ParseTime(dayLength)/100))
       }) :
       ticket)
   },
   [ActionTypes.ADD_TICKET](state, action) {
-    var id = state.reduce((maxId, ticket) => Math.max(ticket.id, maxId), -1) + 1;
-    return [ ...state, {
-      id,
-      completed: false,
-      name: action.name,
-      timeStarted: moment().unix(),
-      duration: 0,
-      type: action.ticketType,
-      colour: action.colour(state.length),
-      width: 0
-    }];
+    var currentTicket = state.find(function(ticket) { return ticket.name === action.name; });
+    if (currentTicket)
+    {
+      state = state.map(ticket =>
+        (ticket.id === currentTicket.id ?
+          Object.assign({}, ticket, { completed: false, timeStarted: moment().unix() }) :
+          ticket)
+      ); 
+      return _.sortBy(state, 'completed');
+    } else {
+      var id = state.reduce((maxId, ticket) => Math.max(ticket.id, maxId), -1) + 1;
+      return [ {
+        id,
+        completed: false,
+        name: action.name,
+        timeStarted: moment().unix(),
+        duration: 0,
+        durationSaved: 0,
+        type: action.ticketType,
+        colour: action.colour(state.length),
+        width: 0
+      }, ...state];
+    }
   },
   [ActionTypes.DELETE_TICKET](state, action) {
     return state.filter(ticket =>
@@ -45,11 +58,11 @@ const actionsMap = {
     ); 
   },
   [ActionTypes.COMPLETE_TICKET](state, action) {
-    var currentTicket = state.find(function(ticket) { return ticket.completed === false; });
-    if (currentTicket) TempoAPI.LogWork(currentTicket);
+    // var currentTicket = state.find(function(ticket) { return ticket.completed === false; });
+    // if (currentTicket) TempoAPI.LogWork(currentTicket);
     return state.map(ticket =>
       (ticket.completed === false ?
-        Object.assign({}, ticket, { completed: true }) :
+        Object.assign({}, ticket, { completed: true, durationSaved: ticket.duration }) :
         ticket)
     ); 
   },
@@ -57,6 +70,13 @@ const actionsMap = {
     var currentTicket = state.find(function(ticket) { return ticket.completed === false; });
     if (currentTicket) TempoAPI.LogWork(currentTicket);
     return [];
+  },
+  [ActionTypes.RESUME_BREAK](state, action) {
+    return state.map(ticket =>
+      (ticket.id === action.id ?
+        Object.assign({}, ticket, { completed: false }) :
+        ticket)
+    ); 
   }
 };
 

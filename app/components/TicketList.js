@@ -20,7 +20,7 @@ export default class TicketList extends Component {
     const { tickets } = this.props;
     let segments = [];
     var percent = 0;
-    for (let i = tickets.length-1; i >= 0; i--) {
+    for (let i = 0; i < tickets.length; i++) {
       var ticket = tickets[i];
       var style = {
         background: ticket.colour

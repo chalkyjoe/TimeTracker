@@ -20,7 +20,7 @@ export default class ProgressBar extends Component {
     const { tickets } = this.props;
     let segments = [];
     var percent = 0;
-    for (let i = 0; i < tickets.length; i++) {
+    for (let i = tickets.length-1; i >= 0; i--) {
       var width = tickets[i].width;
       
       if (percent + width >= 100)
@@ -33,8 +33,8 @@ export default class ProgressBar extends Component {
         width: width + '%',
         background: tickets[i].colour,
         borderRadius: tickets.length == 1 && i == 0 ? '20px' :
-                      i == 0 ? '20px 0 0 20px' : 
-                      i == tickets.length-1 ? '0 20px 20px 0' :
+                      i == tickets.length-1 ? '20px 0 0 20px' : 
+                      i == 0 ? '0 20px 20px 0' :
                       ''
       };
       segments.push(<span style={style}></span>);
