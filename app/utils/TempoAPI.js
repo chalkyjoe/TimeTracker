@@ -8,9 +8,7 @@ export function LogWork(ticket)
   		'timeSpentSeconds': ticket.duration
 	};
 
-	GenericFetch(`issue/${ticket.name}/worklog`, json, 'POST').then(function(response) {
-      console.log(response.json());
-    });
+	return GenericFetch(`issue/${ticket.name}/worklog`, json, 'POST')
 }
 
 function GenericFetch(endpoint, json, method, callback)

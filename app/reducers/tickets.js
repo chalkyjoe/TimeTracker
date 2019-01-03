@@ -15,7 +15,7 @@ const actionsMap = {
     return state.map(ticket => 
       ticket.id === action.id ?
       Object.assign({}, ticket, {
-        duration: moment().unix() - ticket.timeStarted + ticket.durationSaved,
+        duration: moment().unix() - (ticket.timeResumed == 0 ? ticket.timeStarted : ticket.timeResumed) + ticket.durationSaved,
         width: (ticket.duration / (TimeHelper.ParseTime(dayLength)/100))
       }) :
       ticket)
@@ -26,7 +26,7 @@ const actionsMap = {
     {
       state = state.map(ticket =>
         (ticket.id === currentTicket.id ?
-          Object.assign({}, ticket, { completed: false, timeStarted: moment().unix() }) :
+          Object.assign({}, ticket, { completed: false, timeResumed: moment().unix() }) :
           ticket)
       ); 
       return _.sortBy(state, 'completed');
@@ -37,11 +37,13 @@ const actionsMap = {
         completed: false,
         name: action.name,
         timeStarted: moment().unix(),
+        timeResumed: 0,
         duration: 0,
         durationSaved: 0,
         type: action.ticketType,
         colour: action.colour(state.length),
-        width: 0
+        width: 0,
+        uploaded: null
       }, ...state];
     }
   },
@@ -70,6 +72,16 @@ const actionsMap = {
     var currentTicket = state.find(function(ticket) { return ticket.completed === false; });
     if (currentTicket) TempoAPI.LogWork(currentTicket);
     return [];
+  },
+  [ActionTypes.UPLOAD_TICKET](state, action) {
+      TempoAPI.LogWork(action.ticket).then(function (response) {
+        response = response.json()
+        return state.map(ticket =>
+          (ticket.id === action.id ?
+            Object.assign({}, ticket, { uploaded: (response['id'] !== null), completed: true, durationSaved: ticket.duration }) :
+            ticket)
+        ); 
+      });
   },
   [ActionTypes.RESUME_BREAK](state, action) {
     return state.map(ticket =>

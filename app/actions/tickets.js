@@ -22,3 +22,7 @@ export function completeCurrentTicket() {
 export function FinishDay() {
 	return {type: types.FINISH_DAY };
 }
+
+export function UploadTicket(ticket) {
+	return {type: types.UPLOAD_TICKET, ticket };
+}

@@ -4,6 +4,7 @@ import style from './ProgressBar.css';
 import * as TicketTypes from '../constants/TicketTypes';
 import * as TimeHelper from '../utils/TimeHelper';
 import moment from 'moment';
+import _ from 'underscore';
 import * as Config from '../utils/Config';
 
 export default class ProgressBar extends Component {
@@ -16,7 +17,7 @@ export default class ProgressBar extends Component {
     super(props, context);
   }
 
-  CreateTable = () => {
+  CreateElements = () => {
     const { tickets } = this.props;
     let segments = [];
     var percent = 0;
@@ -54,20 +55,20 @@ export default class ProgressBar extends Component {
   getTimeStart = () => {
     var tickets = this.props.tickets;
     if (tickets.length == 0) return;
-    var time = tickets[0].timeStarted;
+    var time = _.sortBy(tickets, 'timeStarted')[0].timeStarted;
     return moment(time, 'X').format('hh:mma');
   }
 
   getTimeEnd = () => {
     var tickets = this.props.tickets;
     if (tickets.length == 0) return;
-    var time = tickets[0].timeStarted;
+    var time = _.sortBy(tickets, 'timeStarted')[0].timeStarted;
     return moment(time + TimeHelper.ParseTime(Config.getDayLength()), 'X').format('hh:mma');
   }
 
   render() {
     const { tickets } = this.props;
-    var table = this.CreateTable()
+    var elements = this.CreateElements()
     return (
       <div>
         <span style={{fontWeight: 'bold'}}>{this.getTimeStart()}</span>
@@ -75,7 +76,7 @@ export default class ProgressBar extends Component {
         <div style={{position: 'relative'}}>
           <div className={style.progress}>
             <label>{this.getTotalTime()}</label>
-            {table}
+            {elements}
           </div>
           <div className={style.progress + ' ' + style.progressOverlay}></div>
         </div>

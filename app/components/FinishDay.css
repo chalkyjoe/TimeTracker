@@ -2,3 +2,34 @@
 	width: 100%;
 	margin: .5rem 0;
 }
+
+.ticket {
+    display: block;
+    width: 100%;
+    border: 1px solid black;
+    margin: .25rem 0;
+    padding: .25rem;
+    color: white;
+}
+
+.ticket label {
+	color: white;
+	float: right;
+}
+ul {
+	padding: .45rem;
+	box-shadow: inset -1px -1px 1px 1px black;
+	height:250px;
+	overflow: auto;
+}
+.buttons {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.buttons button {
+	width: 49%;
+}
+.submit {
+	background-color: #006644;
+}
