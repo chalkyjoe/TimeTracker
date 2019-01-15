@@ -6,6 +6,7 @@ import _ from 'underscore';
 import * as TicketTypes from '../constants/TicketTypes';
 import * as TimeHelper from '../utils/TimeHelper';
 import * as Config from '../utils/Config';
+import * as TempoAPI from '../utils/TempoAPI';
 
 export default class FinishDay extends Component {
 
@@ -44,14 +45,26 @@ export default class FinishDay extends Component {
     this.setState({ modalOpen: true });
   }
 
-
   handleOnSubmit = () => {
-  	//this.props.finishDay(this.prop.tickets);
     var self = this;
-    _.forEach(this.props.tickets, function(ticket) {
-      console.log(ticket);
-      self.props.uploadTicket(ticket);
+    _.forEach(this.props.tickets.filter(ticket => ticket.uploaded != true), function(ticket) {
+      TempoAPI.LogWork(ticket).then(function(response) {
+        console.log(response);
+       if (response.status == 201) { 
+        self.props.uploadTicket(ticket, true);
+       } else {
+        response.json().then(function(res) {
+          self.props.uploadTicket(ticket, false);
+          console.log(res) 
+        })
+       }
+     });
     })
+  }
+
+  finishDay = () => {
+    this.props.finishDay(this.props.tickets);
+    this.props.closeModal();
   }
 
   CreateTable = () => {
@@ -89,6 +102,7 @@ export default class FinishDay extends Component {
           <button onClick={this.handleOnSubmit} className={style.submit}>Submit</button>
           <button onClick={this.closeModal}>Close</button>
         </div>
+        <button onClick={this.finishDay} className={style.finish}>Finish Day</button>
         </Modal>
       </span>
     );

@@ -39,7 +39,7 @@ export default class App extends Component {
           <ChangeTicket actions={actions} ticketType={TicketTypes.MEETING}/>
           <ChangeTicket actions={actions} ticketType={TicketTypes.BREAK} />
         </div>
-        <FinishDay uploadTicket={actions.UploadTicket} completeTicket={actions.completeTicket} ticketCount={tickets.length} tickets={tickets} />
+        <FinishDay uploadTicket={actions.UploadTicket} completeTicket={actions.completeTicket} finishDay={actions.FinishDay} ticketCount={tickets.length} tickets={tickets} />
         <TicketList tickets={tickets} />
       </div>
     );

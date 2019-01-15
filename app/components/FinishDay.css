@@ -18,8 +18,8 @@
 }
 ul {
 	padding: .45rem;
-	box-shadow: inset -1px -1px 1px 1px black;
-	height:250px;
+	box-shadow: inset 1px 1px 1px 1px black;
+	height:200px;
 	overflow: auto;
 }
 .buttons {
@@ -32,4 +32,9 @@ ul {
 }
 .submit {
 	background-color: #006644;
+}
+.finish {
+	background-color: rgb(96, 109, 188);
+	width: 100%;
+	margin-top:.5rem;
 }

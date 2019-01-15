@@ -23,6 +23,6 @@ export function FinishDay() {
 	return {type: types.FINISH_DAY };
 }
 
-export function UploadTicket(ticket) {
-	return {type: types.UPLOAD_TICKET, ticket };
+export function UploadTicket(ticket, success) {
+	return {type: types.UPLOAD_TICKET, ticket, success };
 }

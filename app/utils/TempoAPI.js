@@ -7,7 +7,7 @@ export function LogWork(ticket)
 		'started': moment(ticket.timeStarted, 'X').format('YYYY-MM-DDT00:00:00.00+0000'),
   		'timeSpentSeconds': ticket.duration
 	};
-
+	console.log(json);
 	return GenericFetch(`issue/${ticket.name}/worklog`, json, 'POST')
 }
 

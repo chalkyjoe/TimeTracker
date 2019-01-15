@@ -60,8 +60,6 @@ const actionsMap = {
     ); 
   },
   [ActionTypes.COMPLETE_TICKET](state, action) {
-    // var currentTicket = state.find(function(ticket) { return ticket.completed === false; });
-    // if (currentTicket) TempoAPI.LogWork(currentTicket);
     return state.map(ticket =>
       (ticket.completed === false ?
         Object.assign({}, ticket, { completed: true, durationSaved: ticket.duration }) :
@@ -74,14 +72,11 @@ const actionsMap = {
     return [];
   },
   [ActionTypes.UPLOAD_TICKET](state, action) {
-      TempoAPI.LogWork(action.ticket).then(function (response) {
-        response = response.json()
-        return state.map(ticket =>
-          (ticket.id === action.id ?
-            Object.assign({}, ticket, { uploaded: (response['id'] !== null), completed: true, durationSaved: ticket.duration }) :
-            ticket)
-        ); 
-      });
+    return state.map(ticket =>
+      (ticket.id === action.ticket.id ?
+        Object.assign({}, ticket, { uploaded: action.success, completed: true, durationSaved: ticket.duration }) :
+        ticket)
+    ); 
   },
   [ActionTypes.RESUME_BREAK](state, action) {
     return state.map(ticket =>
