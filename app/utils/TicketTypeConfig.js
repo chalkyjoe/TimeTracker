@@ -14,28 +14,22 @@ export function getTicketTypeConfig(ticketType) {
 				setIsEnabled: (type, callback) => {
 				    if (ticketType != TicketTypes.TICKET) return true;
 				    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, tabs => {
-					    var url = tabs[0].url.split('?')[0].split('#')[0];
-					    var baseUrl = "https://" + Config.getBaseUrl() + '/browse/';
-					    var ticketNo = url.replace(baseUrl, '');
-					    if (!url.includes(baseUrl))
-				    	{
-				    		callback({ canChange: false });
-				    		return;
-				    	}
-					    TempoAPI.GetTicketDescription(ticketNo).then(response => {
-					    	if (response == 201) 
-				    		{
-				    			callback({ canChange: url.includes(baseUrl), ticketNo });
-				    			return;
-				    		}
-					      	response.json().then(res => {
-					          callback({
-						      	canChange: url.includes(baseUrl),
-						      	ticketNo,
-						      	summary: res.fields.summary
-						      });
-					        })
-					    })
+				    	Config.getBaseUrl().then(baseUrlConfig => {
+				    		var url = tabs[0].url.split('?')[0].split('#')[0];
+						    var baseUrl = "https://" + baseUrlConfig + '/browse/';
+						    var ticketNo = url.replace(baseUrl, '');
+						    if (!url.includes(baseUrl)) return callback({ canChange: false });
+						    TempoAPI.GetTicketDescription(ticketNo).then(response => {
+						    	if (response == 201) return callback({ canChange: url.includes(baseUrl), ticketNo });
+					    		return response.json();
+					    	}).then(res => {
+						        callback({
+							      	canChange: url.includes(baseUrl),
+							      	ticketNo,
+							      	summary: res.fields.summary
+							     });
+						    })
+				    	})
 				    });
 				},
 				onClick: function(actions, state, props) {
@@ -52,7 +46,7 @@ export function getTicketTypeConfig(ticketType) {
 					callback({
 				      	canChange: true,
 				      	ticketNo: 'Break'
-				      });
+				    });
 				},
 				onClick: function(actions, state, props) {
 					actions.completeCurrentTicket();
@@ -65,11 +59,13 @@ export function getTicketTypeConfig(ticketType) {
 			buttonColour: '#FD6A02',
 			text: 'Start Meeting',
 			setIsEnabled: function(type, callback) {
-				return callback({
+				Config.getMeetingTicketNo().then(ticketNo => {
+					return callback({
 				      	canChange: true,
-				      	ticketNo: Config.getMeetingTicketNo(),
+				      	ticketNo,
 				      	summary: 'Meeting'
-				      });
+				    });
+				})
 			},
 			onClick: function(actions, state, props) {
 				actions.completeCurrentTicket();

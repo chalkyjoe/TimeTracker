@@ -1,15 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import style from './ChangeTicket.css';
-import * as TicketTypes from '../constants/TicketTypes';
-import * as TimeHelper from '../utils/TimeHelper';
-import * as Config from '../utils/Config';
 import * as TicketTypeConfig from '../utils/TicketTypeConfig';
 
 export default class ChangeTicket extends Component {
 
   static propTypes = {
-    actions:  PropTypes.func.isRequired,
+    actions:  PropTypes.object.isRequired,
     ticketType: PropTypes.string.isRequired
   };
   constructor(props, context) {

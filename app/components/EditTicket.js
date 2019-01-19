@@ -1,20 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import moment from 'moment';
+import onClickOutside from 'react-onclickoutside'
 import style from './EditTicket.css';
 import buttonStyle from './Buttons.css';
-import * as TicketTypes from '../constants/TicketTypes';
 import * as TimeHelper from '../utils/TimeHelper';
-import moment from 'moment';
 import * as Config from '../utils/Config';
-import onClickOutside from 'react-onclickoutside'
 
 export default class EditTicket extends Component {
 
   static propTypes = {
-    ticket: PropTypes.array.isRequired,
+    ticket: PropTypes.object.isRequired,
     closeModal: PropTypes.func.isRequired,
     editTicket: PropTypes.func.isRequired,
-    duration: PropTypes.object.isRequired
+    duration: PropTypes.number.isRequired
   };
 
   constructor(props, context) {
@@ -30,7 +29,6 @@ export default class EditTicket extends Component {
   }
   handleOnSubmit = () => {
     var time = TimeHelper.ParseTime(this.state.duration);
-    console.log(time);
     this.props.editTicket(this.props.ticket.id, time);
     this.props.closeModal();
   }

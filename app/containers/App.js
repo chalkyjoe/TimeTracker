@@ -35,12 +35,16 @@ export default class App extends Component {
     }
     return segments;
   }
+  getCurrentTicket()
+  {
+    tickets.find(function (element) { return element.completed == false})
+  }
   render() {
     const { tickets, actions } = this.props;
     return (
       <div className={style.progress}>
         <h1>TimeTracker</h1>
-        <CurrentTicket ticket={tickets.find(function (element) { return element.completed == false})} incrementTime={actions.incrementTime}/>
+        <CurrentTicket ticket={this.getCurrentTicket} incrementTime={actions.incrementTime} updateProgress={actions.updateProgress}/>
         <ProgressBar tickets={tickets} />
         <ChangeTicket actions={actions} ticketType={TicketTypes.TICKET} text="Change to this Ticket"  />
         <div className={style.inlineButtons}>

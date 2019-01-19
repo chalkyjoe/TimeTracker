@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import style from './EditTicket.css';
 import buttonStyle from './Buttons.css';
-import * as TicketTypes from '../constants/TicketTypes';
 import moment from 'moment';
 
 export default class DeleteTicket extends Component {

@@ -1,8 +1,9 @@
 {
   "version": "0.0.0",
-  "name": "react-chrome-extension-example",
+  "name": "TimeTracker",
   "manifest_version": 2,
-  "description": "Example for react-chrome-extension-boilerplate",
+  "description": "UDG Internal chrome extension to track time of issues",
+  "options_page": "options.html",
   "browser_action": {
     "default_title": "React Chrome Extension Example",
     "default_popup": "popup.html"

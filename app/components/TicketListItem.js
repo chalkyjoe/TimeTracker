@@ -5,7 +5,6 @@ import * as TicketTypes from '../constants/TicketTypes';
 import * as TimeHelper from '../utils/TimeHelper';
 import moment from 'moment';
 import Modal from 'react-modal';
-import * as Config from '../utils/Config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import onClickOutside from 'react-onclickoutside';
@@ -15,7 +14,7 @@ import DeleteTicket from './DeleteTicket.js';
 class TicketListItem extends Component {
 
   static propTypes = {
-    ticket: PropTypes.array.isRequired
+    ticket: PropTypes.object.isRequired
   };
 
   constructor(props, context) {

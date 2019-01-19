@@ -4,9 +4,7 @@ import Modal from 'react-modal';
 import style from './FinishDay.css';
 import buttonStyle from './Buttons.css';
 import _ from 'underscore';
-import * as TicketTypes from '../constants/TicketTypes';
 import * as TimeHelper from '../utils/TimeHelper';
-import * as Config from '../utils/Config';
 import * as TempoAPI from '../utils/TempoAPI';
 
 export default class FinishDay extends Component {
@@ -39,7 +37,7 @@ export default class FinishDay extends Component {
   }
 
   closeModal() {
-    this.setState({modalOpen: false});
+    this.setState({ modalOpen: false });
   }
 
   handleOnClick = () => {
@@ -50,7 +48,6 @@ export default class FinishDay extends Component {
     var self = this;
     _.forEach(this.props.tickets.filter(ticket => ticket.uploaded != true), function(ticket) {
       TempoAPI.LogWork(ticket).then(function(response) {
-        console.log(response);
        if (response.status == 201) { 
         self.props.uploadTicket(ticket, true);
        } else {
@@ -95,8 +92,6 @@ export default class FinishDay extends Component {
       <button className={style.finishDay} onClick={this.handleOnClick} disabled={!this.props.ticketCount != 0}>Finish Day</button>
       <Modal
           isOpen={this.state.modalOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
         >
         <h1>Finish Day</h1>
         <ul className={style.container}>

@@ -16,26 +16,30 @@ export default class ProgressBar extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      totalTime: 0
+      totalTime: 0,
+      dayLength: '8h',
+      baseURL: ''
     }
     this.tick = this.tick.bind(this);
     this.intervalHandle = setInterval(this.tick, 400);
+    Config.getBaseUrl().then(url => {
+      this.setState({baseURL: url});
+    })
+    Config.getDayLength().then(length => {
+      console.log(length);
+      this.setState({dayLength: length});
+    });
   }
-
   getTicketURL() {
     const { ticket } = this.props;
     if (!ticket) return;
     if (ticket.type == TicketTypes.NOT_SELECTED) return '#';
-    return Config.getBaseUrl() + ticket.name;
+    return this.state.baseURL + ticket.name;
   }
-
   tick() {
     const {tickets} = this.props;
     var duration = 0;
     tickets.map(function(ticket) { duration += ticket.duration; });
-    var dayLength = Config.getDayLength();
-    var percent = 0;
-    tickets.map(function(ticket) { percent += ticket.width })
     this.setState({ duration });
   }
   CreateElements = () => {
@@ -65,7 +69,7 @@ export default class ProgressBar extends Component {
   }
   getTotalTime = () => {
     const {tickets} = this.props;
-    var dayLength = Config.getDayLength();
+    var dayLength = this.state.dayLength;
     var percent = 0;
     tickets.map(function(ticket) { percent += ticket.width })
     return TimeHelper.FormatTime(this.state.duration) + '/' + dayLength + ' (' + Math.floor(percent) + '%)';
@@ -80,7 +84,7 @@ export default class ProgressBar extends Component {
   getTimeEnd = () => {
     var tickets = this.props.tickets;
     if (tickets.length == 0) return;
-    var time = moment().unix() + (TimeHelper.ParseTime(Config.getDayLength()) - this.state.duration);
+    var time = moment().unix() + (TimeHelper.ParseTime(this.state.dayLength) - this.state.duration);
     return moment(time, 'X').format('hh:mma');
   }
 

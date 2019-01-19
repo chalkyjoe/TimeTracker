@@ -1,21 +1,39 @@
 import * as TimeHelper from './TimeHelper.js';
 
 export function getBaseUrl() {
-	return 'udgroup.atlassian.net';
+	return getConfig('baseURL', 'udgroup.atlassian.net');
 }
 
-export function getDayLength() {
-	return '8h';
+export function getDayLength(callback) {
+	return getConfig('dayLength', '8h');
 }
 
-export function getUsername() {
-	return 'jack.hoyle@udgroup.co.uk'
+export function getUsername(callback) {
+	return getConfig('username', null);
 }
 
 export function getAccessCode() {
-	return 'cWiizHyZbT5soPoujv9GCB3C';
+	return getConfig('accessCode', 'cWiizHyZbT5soPoujv9GCB3C');
 }
 
 export function getMeetingTicketNo() {
-	return 'UDGINT1-6';
+	return getConfig('meetingTicketNo', 'UDGINT1-6');
+}
+export function getToken() {
+	return new Promise(resolve => {
+		chrome.storage.sync.get({username: null, accessCode: null}, items => {
+			resolve(items.username + ':' + items.accessCode);
+		});
+	})
+}
+
+function getConfig(name, defaultValue)
+{
+	return new Promise(resolve => {
+		var params = {};
+		params[name] = defaultValue;
+		chrome.storage.sync.get(params, items => {
+			resolve(items[name]);
+		});
+	})
 }

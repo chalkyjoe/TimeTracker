@@ -1,0 +1,31 @@
+doctype html
+
+html
+  head
+    meta(charset='UTF-8')
+    title Redux TodoMVC Example (Popup)
+    style.
+      body { width: 500px; }
+      input { display: block; }
+
+  body
+    h1 TimeTracker Options
+    div
+      label(name="username") Username
+      input(id="username")
+    div
+      label(name="accessCode") Access Code
+      input(id="accessCode")
+    div
+      label(name="meetingTicketNo") Meeting Ticket ID
+      input(id="meetingTicketNo")
+    div
+      label(name="dayLength") Day Length
+      input(id="dayLength")
+    div
+      label(name="baseURL") Base URL
+      input(id="baseURL")
+    button#save Submit
+
+  script(src="options.js")
+
