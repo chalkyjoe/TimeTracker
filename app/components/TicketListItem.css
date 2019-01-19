@@ -1,0 +1,51 @@
+.listItem {
+	text-shadow: 1px 1px black;
+	margin: .5rem;
+	padding: .25rem;
+	box-shadow: 1px 1px 1px 1px black;
+    position: relative;
+}
+.listItem label {
+	background-color: white;
+	border-radius: 10px;
+	margin-right: .5rem;
+	text-align: center;
+	padding: 0 .5rem;
+}
+.ticketDescription {
+	width: 75%;
+	height: 20px;
+	display: block;
+	color: white;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.pushRight {
+	position: absolute;
+	right: 10px;
+	top: 4px;
+}
+.pushRight svg {
+	cursor: pointer;
+}
+.pushRight path {
+	color: white!important;
+}
+.menu {
+	background-color: white;
+	box-shadow: 1px 1px 1px 1px black;
+	padding-left: 0;
+	width: auto;
+	position: absolute;
+	right: 0;
+	z-index: 100;
+}
+.menu li {
+	list-style-type: none;
+	padding: .25rem .5rem;
+	cursor: pointer;
+}
+.menu li:hover {
+	background-color: hsl(0, 0%, 90%);
+}

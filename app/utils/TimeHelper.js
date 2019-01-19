@@ -18,9 +18,14 @@ export function ParseTime(strTime) {
 	return (hours * 3600) + (minutes * 60) + seconds;
 }
 
+export function ValidateTime(strTime) {
+	var regex = new RegExp(/^([1-9]h)*( )*([1-6]*[0-9]m)*( )*([1-6]*[0-9]s)*$/);
+	return regex.test(strTime);
+}
+
 function ReturnTimeBySuffix(timeArray, suffix)
 {
 	var result = timeArray.find(function(element) { return element.includes(suffix) });
 	if (!result) return 0;
-	return result.replace(suffix, '');
+	return parseInt(result.replace(suffix, ''));
 }

@@ -1,0 +1,16 @@
+.buttons {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.buttons button {
+	width: 49%;
+}
+.submit {
+	background-color: #006644;
+}
+.finish {
+	background-color: rgb(96, 109, 188);
+	width: 100%;
+	margin-top:.5rem;
+}

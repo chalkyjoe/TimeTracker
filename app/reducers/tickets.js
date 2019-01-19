@@ -43,7 +43,8 @@ const actionsMap = {
         type: action.ticketType,
         colour: action.colour(state.length),
         width: 0,
-        uploaded: null
+        uploaded: null,
+        summary: action.summary
       }, ...state];
     }
   },
@@ -55,7 +56,7 @@ const actionsMap = {
   [ActionTypes.EDIT_TICKET](state, action) {
     return state.map(ticket =>
       (ticket.id === action.id ?
-        Object.assign({}, ticket, { time: action.duration }) :
+        Object.assign({}, ticket, { durationSaved: action.time, timeResumed: moment().unix() }) :
         ticket)
     ); 
   },
@@ -67,8 +68,6 @@ const actionsMap = {
     ); 
   },
   [ActionTypes.FINISH_DAY](state, action) {
-    var currentTicket = state.find(function(ticket) { return ticket.completed === false; });
-    if (currentTicket) TempoAPI.LogWork(currentTicket);
     return [];
   },
   [ActionTypes.UPLOAD_TICKET](state, action) {

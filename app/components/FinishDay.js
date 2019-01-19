@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import Modal from 'react-modal';
 import style from './FinishDay.css';
+import buttonStyle from './Buttons.css';
 import _ from 'underscore';
 import * as TicketTypes from '../constants/TicketTypes';
 import * as TimeHelper from '../utils/TimeHelper';
@@ -80,7 +81,10 @@ export default class FinishDay extends Component {
                     'orangered'
       };
       
-      segments.push(<li style={liStyle} className={style.ticket}>{ticket.name}  <label>{TimeHelper.FormatTime(ticket.duration)}</label></li>);
+      segments.push(<li style={liStyle} className={style.ticket}>
+        <span className={style.ticketDescription}>{ticket.name}{ticket.summary ? ' - ' : null}{ticket.summary}</span>
+        <label>{TimeHelper.FormatTime(ticket.duration)}</label>
+      </li>);
     }
     return segments;
   }
@@ -94,15 +98,15 @@ export default class FinishDay extends Component {
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
         >
-        <h2>Finish Day</h2>
-        <ul>
+        <h1>Finish Day</h1>
+        <ul className={style.container}>
           {this.CreateTable()}
         </ul>
-        <div className={style.buttons}>
-          <button onClick={this.handleOnSubmit} className={style.submit}>Submit</button>
+        <div className={buttonStyle.buttons}>
+          <button onClick={this.handleOnSubmit} className={buttonStyle.submit}>Submit</button>
           <button onClick={this.closeModal}>Close</button>
         </div>
-        <button onClick={this.finishDay} className={style.finish}>Finish Day</button>
+        <button onClick={this.finishDay} className={buttonStyle.finish}>Finish Day</button>
         </Modal>
       </span>
     );

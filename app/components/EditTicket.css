@@ -1,0 +1,11 @@
+.editTimeInput {
+	width: 100%;
+	font-size: 20px;
+	padding: .5rem;
+	margin: .5rem 0;
+	text-align: center;
+}
+.editTicketInformation {
+	font-size: 20px;
+	margin: 0;
+}

@@ -11,6 +11,11 @@ export function LogWork(ticket)
 	return GenericFetch(`issue/${ticket.name}/worklog`, json, 'POST')
 }
 
+export function GetTicketDescription(name)
+{
+	return GenericFetch(`issue/${name}?fields=summary`, 'GET')
+}
+
 function GenericFetch(endpoint, json, method, callback)
 {
 	var tok = Config.getUsername() + ':' + Config.getAccessCode();
@@ -24,6 +29,6 @@ function GenericFetch(endpoint, json, method, callback)
 	    'Origin': '',
 	    'Access-Control-Allow-Origin': '*'
 	  },
-	  body: JSON.stringify(json)
+	  body: method == 'POST' ? JSON.stringify(json) : null
 	})
 }

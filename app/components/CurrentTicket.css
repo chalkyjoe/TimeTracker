@@ -2,3 +2,11 @@
 	display: flex;
 	justify-content: space-between;
 }
+.ticketDescription {
+	width: 80%;
+	height: 20px;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

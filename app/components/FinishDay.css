@@ -5,6 +5,7 @@
 
 .ticket {
     display: block;
+    position: relative;
     width: 100%;
     border: 1px solid black;
     margin: .25rem 0;
@@ -14,27 +15,22 @@
 
 .ticket label {
 	color: white;
-	float: right;
+	position: absolute;
+	right: 10px;
+	top: 4px;
 }
-ul {
+.container {
 	padding: .45rem;
 	box-shadow: inset 1px 1px 1px 1px black;
 	height:200px;
 	overflow: auto;
 }
-.buttons {
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-}
-.buttons button {
-	width: 49%;
-}
-.submit {
-	background-color: #006644;
-}
-.finish {
-	background-color: rgb(96, 109, 188);
-	width: 100%;
-	margin-top:.5rem;
+.ticketDescription {
+	width: 80%;
+	height: 20px;
+	display: block;
+	color: white;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }

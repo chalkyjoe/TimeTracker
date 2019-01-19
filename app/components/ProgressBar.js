@@ -15,8 +15,29 @@ export default class ProgressBar extends Component {
 
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      totalTime: 0
+    }
+    this.tick = this.tick.bind(this);
+    this.intervalHandle = setInterval(this.tick, 400);
   }
 
+  getTicketURL() {
+    const { ticket } = this.props;
+    if (!ticket) return;
+    if (ticket.type == TicketTypes.NOT_SELECTED) return '#';
+    return Config.getBaseUrl() + ticket.name;
+  }
+
+  tick() {
+    const {tickets} = this.props;
+    var duration = 0;
+    tickets.map(function(ticket) { duration += ticket.duration; });
+    var dayLength = Config.getDayLength();
+    var percent = 0;
+    tickets.map(function(ticket) { percent += ticket.width })
+    this.setState({ duration });
+  }
   CreateElements = () => {
     const { tickets } = this.props;
     let segments = [];
@@ -44,26 +65,23 @@ export default class ProgressBar extends Component {
   }
   getTotalTime = () => {
     const {tickets} = this.props;
-    var duration = 0;
-    tickets.map(function(ticket) { duration += ticket.duration; });
     var dayLength = Config.getDayLength();
     var percent = 0;
     tickets.map(function(ticket) { percent += ticket.width })
-
-    return TimeHelper.FormatTime(duration) + '/' + dayLength + ' (' + Math.floor(percent) + '%)';
+    return TimeHelper.FormatTime(this.state.duration) + '/' + dayLength + ' (' + Math.floor(percent) + '%)';
   }
   getTimeStart = () => {
     var tickets = this.props.tickets;
     if (tickets.length == 0) return;
-    var time = _.sortBy(tickets, 'timeStarted')[0].timeStarted;
+    var time = moment().unix() - this.state.duration;
     return moment(time, 'X').format('hh:mma');
   }
 
   getTimeEnd = () => {
     var tickets = this.props.tickets;
     if (tickets.length == 0) return;
-    var time = _.sortBy(tickets, 'timeStarted')[0].timeStarted;
-    return moment(time + TimeHelper.ParseTime(Config.getDayLength()), 'X').format('hh:mma');
+    var time = moment().unix() + (TimeHelper.ParseTime(Config.getDayLength()) - this.state.duration);
+    return moment(time, 'X').format('hh:mma');
   }
 
   render() {

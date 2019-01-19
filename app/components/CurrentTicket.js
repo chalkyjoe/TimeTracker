@@ -40,7 +40,7 @@ export default class CurrentTicket extends Component {
     {
       return (
           <div className={style.currentTicket}>
-            <span>Current: <a href={this.getTicketURL()}>{ticket.name}</a></span>
+            <span className={style.ticketDescription}>Current: <a href={this.getTicketURL()}>{ticket.name}{ticket.summary ? ' - ' : null} {ticket.summary}</a></span>
               <span>{TimeHelper.FormatTime(ticket.duration)}</span>
           </div>
       );

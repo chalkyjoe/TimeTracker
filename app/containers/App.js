@@ -1,16 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Header from '../components/Header';
-import MainSection from '../components/MainSection';
 import CurrentTicket from '../components/CurrentTicket';
-import TicketList from '../components/TicketList';
+import TicketListItem from '../components/TicketListItem';
 import ChangeTicket from '../components/ChangeTicket';
 import ProgressBar from '../components/ProgressBar';
 import FinishDay from '../components/FinishDay';
 import * as TicketTypes from '../constants/TicketTypes';
 import * as TicketActions from '../actions/tickets';
 import style from './App.css';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 @connect(
   state => ({
@@ -21,12 +22,19 @@ import style from './App.css';
   })
 )
 export default class App extends Component {
-
   static propTypes = {
     tickets: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
   };
-
+  CreateTicketList = (actions) => {
+    const { tickets } = this.props;
+    let segments = [];
+    var percent = 0;
+    for (let i = 0; i < tickets.length; i++) {
+      segments.push(<TicketListItem ticket={tickets[i]} EditTicket={actions.editTicket} DeleteTicket={actions.deleteTicket} />);
+    }
+    return segments;
+  }
   render() {
     const { tickets, actions } = this.props;
     return (
@@ -40,7 +48,11 @@ export default class App extends Component {
           <ChangeTicket actions={actions} ticketType={TicketTypes.BREAK} />
         </div>
         <FinishDay uploadTicket={actions.UploadTicket} completeTicket={actions.completeTicket} finishDay={actions.FinishDay} ticketCount={tickets.length} tickets={tickets} />
-        <TicketList tickets={tickets} />
+        <div style={{position: 'relative'}}>
+          <ul className={style.listContainer}>
+            {this.CreateTicketList(actions)}
+          </ul>
+        </div>
       </div>
     );
   }
