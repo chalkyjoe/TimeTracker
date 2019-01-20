@@ -25,7 +25,6 @@ function GenericFetch(endpoint, json, method)
 	var token = '';
 	return Config.getTempoInfo().then(items => {
 		var hash = btoa(items.username + ':' + items.accessCode);
-		console.log(hash);
 		return fetch(`http://${items.corsEverywhere}/https://${items.baseURL}.atlassian.net/rest/api/3/${endpoint}`, {
 		  method,
 		  headers: {

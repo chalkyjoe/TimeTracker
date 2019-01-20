@@ -6,6 +6,7 @@ import * as TimeHelper from '../utils/TimeHelper';
 import moment from 'moment';
 import _ from 'underscore';
 import * as Config from '../utils/Config';
+import * as Storage from '../utils/StorageObj'
 
 export default class ProgressBar extends Component {
 
@@ -28,6 +29,9 @@ export default class ProgressBar extends Component {
     })
     Config.getDayLength().then(length => {
       this.setState({dayLength: length});
+    });
+    Storage.get({cycleNo: 0}).then(items => {
+      this.setState(items)
     });
   }
   getTicketURL() {
@@ -73,12 +77,7 @@ export default class ProgressBar extends Component {
   getTotalTime = () => {
     const {tickets} = this.props;
     var dayLength = this.state.dayLength;
-    var percent = 0;
-    tickets.map(function(ticket) { percent += ticket.width })
-    return TimeHelper.FormatTime(this.state.duration) + '/' + dayLength + ' (' + Math.floor(percent) + '%)';
-  }
-  getRemainingTime = () => {
-    return 'Remaining: ' + TimeHelper.FormatTime(TimeHelper.ParseTime(this.state.dayLength) - this.state.duration);
+    return TimeHelper.FormatTime(this.state.duration) + '/' + dayLength + ' (' + this.getPercent() + ')';
   }
   getPercent = () => {
     const {tickets} = this.props;
@@ -89,14 +88,15 @@ export default class ProgressBar extends Component {
   getProgressLabel = () => {
     var cycle = [ 
       this.getTotalTime(),
-      this.getRemainingTime(),
+      'Remaining: ' + TimeHelper.FormatTime(TimeHelper.ParseTime(this.state.dayLength) - this.state.duration),
       this.getPercent()
-    ]
-    var cycleNo = this.state.cycleNo%cycle.length;
-    return cycle[cycleNo];
+    ];
+    return cycle[this.state.cycleNo];
   }
   onClick = () => {
-    this.setState({cycleNo: this.state.cycleNo+1})
+    this.setState({cycleNo: (this.state.cycleNo+1)%cycle.length}, () => {
+      Storage.set({cycleNo: this.state.cycleNo});
+    });
   }
   getTimeStart = () => {
     var tickets = this.props.tickets;
