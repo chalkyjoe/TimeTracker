@@ -5,27 +5,68 @@ html
     meta(charset='UTF-8')
     title Redux TodoMVC Example (Popup)
     style.
-      body { width: 500px; }
-      input { display: block; }
-
+      * { box-sizing: border-box; }
+      body { background-color: hsl(0, 0%, 50%) }
+      input { display: block; width: 100%; padding: 1rem; }
+      label { font-weight: bold; font-size: 14px; padding: .25rem }
+      p { margin: 0; padding: .25rem;}
+      .container {
+        width: 25%;
+        margin: auto;
+        background-color: hsl(0, 0%, 95%);
+        padding: 1rem;
+        border: 5px solid hsl(0, 0%, 10%);
+      }
+      button { 
+        margin: .25rem auto;
+        padding: 1rem;
+        width: 100%;
+      }
+      #status { color: red; }
+      .error { color: red; display:none; }
+      .inputError { border: 1px solid red }
+      .inputSuccess { border: 1px solid green }
   body
-    h1 TimeTracker Options
-    div
-      label(name="username") Username
-      input(id="username")
-    div
-      label(name="accessCode") Access Code
-      input(id="accessCode")
-    div
-      label(name="meetingTicketNo") Meeting Ticket ID
-      input(id="meetingTicketNo")
-    div
-      label(name="dayLength") Day Length
-      input(id="dayLength")
-    div
-      label(name="baseURL") Base URL
-      input(id="baseURL")
-    button#save Submit
-
+    div.container
+      h1 TimeTracker Options
+      div
+        label(name="corsEverywhere") Cors Everywhere proxy URL
+        span.corsEverywhere.error
+        input#corsEverywhere
+        p The nature of this extension requires a proxy to bypass CORS security. To host your own Cors Everywhere proxy see 
+          a(href="https://github.com/Rob--W/cors-anywhere/" target="_blank") this link.
+          |  To read more about the CORS protocol click 
+          a(href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank") here.
+      div
+        label(name="username") Username
+        span.username.error
+        input#username
+        p Use your atlassian email address. You can still use TimeTracker without connecting to atlassian but you will not be able to submit your timesheet to Tempo or retrieve ticket summaries.
+      div
+        label(name="accessCode") Access Code
+        span.accessCode.error
+        input#accessCode
+        p Your Access Code can be retrieved by following this 
+            a(href="https://id.atlassian.com/manage/api-tokens?_ga=2.150752565.2041354013.1543608755-747499131.1542193543" target="_blank") link.
+      div
+        label(name="baseURL") Base URL
+        span.baseURL.error
+        div
+          input#baseURL(style="display: inline; width: auto")
+          span .atlassian.net
+      div
+        label(name="meetingTicketNo") Meeting Ticket ID
+        span.meetingTicketNo.error
+        input(id="meetingTicketNo")
+      div
+        label(name="dayLength") Day Length
+        span.dayLength.error
+        input#dayLength
+        p Follow Tempo formatting (XXh XXm XXs)
+      button#save Submit
+      button#restore Restore Default values
+      button#revert Revert to last saved
+      p#status
+  script(src="jquery-3.3.1.min.js")
   script(src="options.js")
 

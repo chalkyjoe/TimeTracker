@@ -20,7 +20,7 @@ export function ParseTime(strTime) {
 }
 
 export function ValidateTime(strTime) {
-	var regex = new RegExp(/^([1-9]h)*( )*([1-6]*[0-9]m)*( )*([1-6]*[0-9]s)*$/);
+	var regex = new RegExp(/^([1-2]*[0-9]h)*( )*([1-6]*[0-9]m)*( )*([1-6]*[0-9]s)*$/);
 	return regex.test(strTime);
 }
 

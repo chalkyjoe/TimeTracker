@@ -9,7 +9,7 @@ import moment from 'moment';
 export default class CurrentTicket extends Component {
 
   static propTypes = {
-    ticket: PropTypes.object,
+    ticket: PropTypes.object.isRequired,
     incrementTime: PropTypes.func.isRequired
   };
 
@@ -32,16 +32,17 @@ export default class CurrentTicket extends Component {
   }
 
   tick() {
-    const { ticket, incrementTime } = this.props;
+    const { ticket, incrementTime,  } = this.props;
     if (ticket)
     {
       Config.getDayLength().then(dayLength => {
         if (this.state.dayLength != dayLength)
         {
-          this.setState(dayLength);
+          this.props.updateProgress(dayLength);
+          this.setState({dayLength});
         }
-        incrementTime(ticket.id, this.state.dayLength);
       });
+      this.props.incrementTime(ticket.id, this.state.dayLength);
     }
   }
 

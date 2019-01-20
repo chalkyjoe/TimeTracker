@@ -28,7 +28,7 @@ export default class DeleteTicket extends Component {
         <input disabled className={style.editTimeInput}  value={ticket.name + (ticket.summary ? ' - ' + ticket.summary : '')} />
         <div className={buttonStyle.buttons}>
           <button onClick={this.handleOnSubmit} className={buttonStyle.submit}>Delete</button>
-          <button onClick={this.props.closeModal}>Close</button>
+          <button onClick={this.props.closeModal()}>Close</button>
         </div>
       </div>
     );

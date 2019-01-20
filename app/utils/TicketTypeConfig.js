@@ -50,7 +50,7 @@ export function getTicketTypeConfig(ticketType) {
 				},
 				onClick: function(actions, state, props) {
 					actions.completeCurrentTicket();
-	    			actions.addTicket(state.ticketNo, function() { return 'repeating-linear-gradient(-45deg,#ff0012,#ff0012 10px,#B3000C 10px,#B3000C 20px)' }, state.summary );
+	    			actions.addTicket(state.ticketNo, function() { return '#ff0012' }, state.summary );
 				}
 			}
 			break;
@@ -69,7 +69,7 @@ export function getTicketTypeConfig(ticketType) {
 			},
 			onClick: function(actions, state, props) {
 				actions.completeCurrentTicket();
-    			actions.addTicket(state.ticketNo, function() { return 'repeating-linear-gradient(-45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)' }, state.summary);
+    			actions.addTicket(state.ticketNo, function() { return '#606dbc' }, state.summary);
 			}
 		}
 	}

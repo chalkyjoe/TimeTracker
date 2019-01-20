@@ -1,9 +1,6 @@
 import * as ActionTypes from '../constants/ActionTypes';
 import * as TicketTypes from '../constants/TicketTypes';
-import * as Config from '../utils/Config';
-import * as ColourStore from '../utils/ColourStorage';
 import * as TimeHelper from '../utils/TimeHelper';
-import * as TempoAPI from '../utils/TempoAPI';
 import moment from 'moment';
 import _ from 'underscore';
 
@@ -11,14 +8,19 @@ const initialState = [];
 
 const actionsMap = {
   [ActionTypes.INCREMENT_TIME](state, action) {
-    var dayLength = Config.getDayLength();
     return state.map(ticket => 
       ticket.id === action.id ?
       Object.assign({}, ticket, {
         duration: moment().unix() - (ticket.timeResumed == 0 ? ticket.timeStarted : ticket.timeResumed) + ticket.durationSaved,
-        width: (ticket.duration / (TimeHelper.ParseTime(dayLength)/100))
+        width: (ticket.duration / (TimeHelper.ParseTime(action.dayLength)/100))
       }) :
       ticket)
+  },
+  [ActionTypes.UPDATE_PROGRESS](state, action) {
+    return state.map(ticket => 
+      Object.assign({}, ticket, {
+        width: (ticket.duration / (TimeHelper.ParseTime(action.dayLength)/100))
+      }))
   },
   [ActionTypes.ADD_TICKET](state, action) {
     var currentTicket = state.find(function(ticket) { return ticket.name === action.name; });

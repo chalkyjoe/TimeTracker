@@ -5,3 +5,4 @@ export const EDIT_TICKET = 'EDIT_TICKET';
 export const COMPLETE_TICKET = 'COMPLETE_TICKET';
 export const FINISH_DAY = 'FINISH_DAY';
 export const UPLOAD_TICKET = 'UPLOAD_TICKET';
+export const UPDATE_PROGRESS = 'UPDATE_PROGRESS';

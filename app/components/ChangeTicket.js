@@ -19,6 +19,9 @@ export default class ChangeTicket extends Component {
     };
     this.setCanChange();
   }
+  componentWillMount() {
+    this.setCanChange();
+  }
   
   handleOnClick = () => {
     this.ticketConfigProvider.onClick(this.props.actions, this.state, this.props);

@@ -18,13 +18,10 @@ export function GetTicketDescription(name)
 function GenericFetch(endpoint, json, method)
 {
 	var token = '';
-	return Config.getToken().then(tok => {
-		token = tok;
-		return Config.getBaseUrl();
-	}).then(baseURL => {
-		var hash = btoa(token);
+	return Config.getTempoInfo().then(items => {
+		var hash = btoa(items.username + ':' + items.accessCode);
 		console.log(hash);
-		return fetch(`http://localhost:8080/https://${baseURL}/rest/api/3/${endpoint}`, {
+		return fetch(`http://${items.corsEverywhere}/https://${items.baseURL}/rest/api/3/${endpoint}`, {
 		  method,
 		  headers: {
 		    'Accept': 'application/json',

@@ -26,7 +26,6 @@ export default class ProgressBar extends Component {
       this.setState({baseURL: url});
     })
     Config.getDayLength().then(length => {
-      console.log(length);
       this.setState({dayLength: length});
     });
   }
@@ -46,25 +45,29 @@ export default class ProgressBar extends Component {
     const { tickets } = this.props;
     let segments = [];
     var percent = 0;
+    var gradient = 'linear-gradient(to right';
     for (let i = tickets.length-1; i >= 0; i--) {
       var width = tickets[i].width;
-      
       if (percent + width >= 100)
       {
         width = 100 - percent;
       }
-
       percent += width;
-      var style = {
-        width: width + '%',
-        background: tickets[i].colour,
-        borderRadius: tickets.length == 1 && i == 0 ? '20px' :
-                      i == tickets.length-1 ? '20px 0 0 20px' : 
-                      i == 0 ? '0 20px 20px 0' :
-                      ''
-      };
-      segments.push(<span style={style}></span>);
+      gradient += `, ${tickets[i].colour} ${percent}%`;
+
+      if (i != 0)
+      {
+        gradient += `, ${tickets[i-1].colour} ${percent}%`;
+      } else {
+        gradient += ', rgba(0, 0, 0, 0) 0)';
+      }
     }
+    var style = {
+      width: '100%',
+      background: gradient,
+      borderRadius: '20px'
+    };
+    segments.push(<span style={style}></span>);
     return segments;
   }
   getTotalTime = () => {
