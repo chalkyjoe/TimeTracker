@@ -58,7 +58,11 @@ const actionsMap = {
   [ActionTypes.EDIT_TICKET](state, action) {
     return state.map(ticket =>
       (ticket.id === action.id ?
-        Object.assign({}, ticket, { durationSaved: action.time, timeResumed: moment().unix() }) :
+        Object.assign({}, ticket, { 
+          durationSaved: action.time,
+          timeResumed: moment().unix(),
+          duration: moment().unix() - (ticket.timeResumed == 0 ? ticket.timeStarted : ticket.timeResumed) + ticket.durationSaved
+        }) :
         ticket)
     ); 
   },
