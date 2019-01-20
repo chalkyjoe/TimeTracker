@@ -15,6 +15,11 @@ export function GetTicketDescription(name)
 	return GenericFetch(`issue/${name}?fields=summary`, null, 'GET');
 }
 
+export function GetSelf()
+{
+	return GenericFetch('myself', null, 'GET');
+}
+
 function GenericFetch(endpoint, json, method)
 {
 	var token = '';

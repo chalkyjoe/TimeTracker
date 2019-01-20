@@ -1,3 +1,7 @@
+var urlParams = new URLSearchParams(window.location.search);
+var errorCode = urlParams.get('errorCode');
+var firstTime = urlParams.get('firstTime');
+
 function save_options() {
       var fields = [
         { name: 'username', isValid: true, value: '' },
@@ -12,7 +16,7 @@ function save_options() {
       var dayLength = $('#dayLength');
       var baseURL = $('#baseURL');
       var corsEverywhere = $('#corsEverywhere');
-
+      
       validate_token(corsEverywhere.val(), username.val(), accessCode.val(), baseURL.val(), data => {
         username.removeClass('inputError').removeClass('inputSuccess');
         accessCode.removeClass('inputError').removeClass('inputSuccess');
@@ -23,6 +27,9 @@ function save_options() {
         var canConnect = data['displayName'];
         var dayLengthValid = validate_dayLength(dayLength.val());
         var meetingTicketNoValid = validate_meetingTicketNo(meetingTicketNo);
+
+        var myNewURL = window.location.pathname;
+        window.history.pushState("", "", myNewURL );
 
         showFieldValidation('corsEverywhere', canConnect, 'Cannot connect to Atlassian.');
         showFieldValidation('username', canConnect, 'Cannot connect to Atlassian.');
@@ -51,6 +58,11 @@ function save_options() {
     }
 
     function restore_options() {
+      canConnect = errorCode == null;
+      showFieldValidation('corsEverywhere', canConnect, 'Cannot connect to Atlassian.');
+      showFieldValidation('username', canConnect, 'Cannot connect to Atlassian.');
+      showFieldValidation('accessCode', canConnect, 'Cannot connect to Atlassian.');
+      showFieldValidation('baseURL', canConnect, 'Cannot connect to Atlassian.');
       chrome.storage.sync.get({
         username: 'firstname.lastname@udgroup.co.uk',
         accessCode: '',

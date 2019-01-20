@@ -13,6 +13,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import * as Config from '../utils/Config';
+import * as TempoAPI from '../utils/TempoAPI';
+
 @connect(
   state => ({
     tickets: state.tickets
@@ -32,9 +34,15 @@ export default class App extends Component {
     Config.getDayLength().then(dayLength => {
       if (dayLength === undefined)
       {
-        chrome.tabs.create({ url: '/options.html' });
+        chrome.tabs.create({ url: '/options.html?firstTime=true' });
       }
     })
+    TempoAPI.GetSelf().then(response => {
+       if (response.status !== 200) {
+          chrome.tabs.create({ url: '/options.html?errorCode=' + response.status });
+       }
+    })
+
   }
   CreateTicketList = (actions) => {
     const { tickets } = this.props;
