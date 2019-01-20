@@ -22,12 +22,12 @@ export default class CurrentTicket extends Component {
     this.intervalHandle = setInterval(this.tick, 400);
   }
 
-  getTicketURL() {
+  getTicketURL = () => {
     const { ticket } = this.props;
     if (!ticket) return;
     if (ticket.type == TicketTypes.NOT_SELECTED) return '#';
     Config.getBaseUrl().then(url => {
-      return url + ticket.name
+      chrome.tabs.create({ url: 'http://' + url + '/browse/' + ticket.name });
     });
   }
 
@@ -52,7 +52,7 @@ export default class CurrentTicket extends Component {
     {
       return (
           <div className={style.currentTicket}>
-            <span className={style.ticketDescription}>Current: <a href={this.getTicketURL()}>{ticket.name}{ticket.summary ? ' - ' : null} {ticket.summary}</a></span>
+            <span className={style.ticketDescription}>Current: <a href="#" onClick={this.getTicketURL}>{ticket.name}{ticket.summary ? ' - ' : null} {ticket.summary}</a></span>
               <span>{TimeHelper.FormatTime(ticket.duration)}</span>
           </div>
       );
