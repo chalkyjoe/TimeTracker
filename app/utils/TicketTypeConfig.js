@@ -17,9 +17,9 @@ export function getTicketTypeConfig(ticketType) {
 				    		var url = tabs[0].url.split('?')[0].split('#')[0];
 						    var baseUrl = "https://" + baseUrlConfig + '/browse/';
 						    var ticketNo = url.replace(baseUrl, '');
-						    console.log(!url.includes(baseUrl));
 						    if (!url.includes(baseUrl)) return callback({ canChange: false });
 						    TempoAPI.GetTicketDescription(ticketNo).then(response => {
+						    	console.log(response);
 						    	if (response == 201) return callback({ canChange: url.includes(baseUrl), ticketNo });
 					    		return response.json();
 					    	}).then(res => {

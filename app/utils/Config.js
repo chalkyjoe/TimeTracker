@@ -1,11 +1,11 @@
 import * as TimeHelper from './TimeHelper.js';
 
 export function getBaseUrl() {
-	return getConfig('baseURL', 'udgroup', '.atlassian.net');
+	return getConfig('baseURL', 'udgroup').then(base => { return base + '.atlassian.net'});
 }
 
 export function getDayLength(callback) {
-	return getConfig('dayLength', '8h');
+	return getConfig('dayLength', '');
 }
 
 export function getUsername(callback) {
@@ -44,7 +44,8 @@ function getConfig(name, defaultValue, suffix)
 		var params = {};
 		params[name] = defaultValue;
 		chrome.storage.sync.get(params, items => {
-			resolve(items[name] + (suffix ? suffix : ''));
+			if (items[name]) resolve(items[name] + (suffix ? suffix : ''));
+			resolve();
 		});
 	})
 }

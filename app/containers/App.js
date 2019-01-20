@@ -12,7 +12,7 @@ import style from './App.css';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
-
+import * as Config from '../utils/Config';
 @connect(
   state => ({
     tickets: state.tickets
@@ -26,6 +26,16 @@ export default class App extends Component {
     tickets: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
   };
+  constructor(props, context) {
+    super(props, context);
+    
+    Config.getDayLength().then(dayLength => {
+      if (dayLength === undefined)
+      {
+        chrome.tabs.create({ url: '/options.html' });
+      }
+    })
+  }
   CreateTicketList = (actions) => {
     const { tickets } = this.props;
     let segments = [];

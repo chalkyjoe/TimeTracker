@@ -18,7 +18,6 @@ export default class ChangeTicket extends Component {
       ticketNo: '',
       modalOpen: false
     };
-    this.setCanChange();
   }
   componentDidMount() {
     this.setCanChange();
