@@ -12,19 +12,19 @@ export function getTicketTypeConfig(ticketType) {
 				buttonColour: '#006644',
 				text: 'Change Ticket',
 				setIsEnabled: (type, callback) => {
-				    if (ticketType != TicketTypes.TICKET) return true;
 				    chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, tabs => {
 				    	Config.getBaseUrl().then(baseUrlConfig => {
 				    		var url = tabs[0].url.split('?')[0].split('#')[0];
 						    var baseUrl = "https://" + baseUrlConfig + '/browse/';
 						    var ticketNo = url.replace(baseUrl, '');
+						    console.log(!url.includes(baseUrl));
 						    if (!url.includes(baseUrl)) return callback({ canChange: false });
 						    TempoAPI.GetTicketDescription(ticketNo).then(response => {
 						    	if (response == 201) return callback({ canChange: url.includes(baseUrl), ticketNo });
 					    		return response.json();
 					    	}).then(res => {
 						        callback({
-							      	canChange: url.includes(baseUrl),
+							      	canChange: true,
 							      	ticketNo,
 							      	summary: res.fields.summary
 							     });

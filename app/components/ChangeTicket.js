@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import style from './ChangeTicket.css';
 import * as TicketTypeConfig from '../utils/TicketTypeConfig';
+import moment from 'moment';
 
 export default class ChangeTicket extends Component {
 
@@ -19,7 +20,7 @@ export default class ChangeTicket extends Component {
     };
     this.setCanChange();
   }
-  componentWillMount() {
+  componentDidMount() {
     this.setCanChange();
   }
   
@@ -27,11 +28,11 @@ export default class ChangeTicket extends Component {
     this.ticketConfigProvider.onClick(this.props.actions, this.state, this.props);
   }
 
-  setCanChange()
+  setCanChange = () =>
   {
     var self = this;
     this.ticketConfigProvider.setIsEnabled(this.props.ticketType, function(response) {
-      self.state = response;
+      self.setState(response);
     })
   }
 
