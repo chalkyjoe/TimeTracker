@@ -17,7 +17,8 @@ import * as TempoAPI from '../utils/TempoAPI';
 
 @connect(
   state => ({
-    tickets: state.tickets
+    tickets: state.tickets,
+    canConnect: false
   }),
   dispatch => ({
     actions: bindActionCreators(TicketActions, dispatch)
@@ -30,26 +31,33 @@ export default class App extends Component {
   };
   constructor(props, context) {
     super(props, context);
-    
+    this.state = {
+      canConnect: false
+    }
     Config.getDayLength().then(dayLength => {
       if (dayLength === undefined)
       {
         chrome.tabs.create({ url: '/options.html?firstTime=true' });
       }
     })
-    TempoAPI.GetSelf().then(response => {
-       if (response.status !== 200) {
-          chrome.tabs.create({ url: '/options.html?errorCode=' + response.status });
-       }
-    })
-
+    if (this.state.canConnect == false)
+    {
+      var self = this;
+      TempoAPI.GetSelf().then(response => {
+         if (response.status !== 200) {
+            chrome.tabs.create({ url: '/options.html?errorCode=' + response.status });
+         } else {
+          self.setState({canConnect: true});
+         }
+      })
+    }
   }
   CreateTicketList = (actions) => {
     const { tickets } = this.props;
     let segments = [];
     var percent = 0;
     for (let i = 0; i < tickets.length; i++) {
-      segments.push(<TicketListItem key={i} ticket={tickets[i]} EditTicket={actions.editTicket} DeleteTicket={actions.deleteTicket} />);
+      segments.push(<TicketListItem key={'r' + i} ticket={tickets[i]} EditTicket={actions.editTicket} DeleteTicket={actions.deleteTicket} />);
     }
     return segments;
   }
@@ -73,7 +81,7 @@ export default class App extends Component {
           <ChangeTicket actions={actions} ticketType={TicketTypes.MEETING}/>
           <ChangeTicket actions={actions} ticketType={TicketTypes.BREAK} />
         </div>
-        <FinishDay uploadTicket={actions.UploadTicket} completeTicket={actions.completeTicket} finishDay={actions.FinishDay} ticketCount={tickets.length} tickets={tickets} />
+        <FinishDay uploadTicket={actions.UploadTicket} completeTicket={actions.completeTicket} finishDay={actions.FinishDay} tickets={tickets} />
         <div style={{position: 'relative'}}>
           <ul className={style.listContainer}>
             {this.CreateTicketList(actions)}
