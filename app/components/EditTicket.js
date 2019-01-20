@@ -13,7 +13,7 @@ export default class EditTicket extends Component {
     ticket: PropTypes.object.isRequired,
     closeModal: PropTypes.func.isRequired,
     editTicket: PropTypes.func.isRequired,
-    duration: PropTypes.number.isRequired
+    duration: PropTypes.string.isRequired
   };
 
   constructor(props, context) {

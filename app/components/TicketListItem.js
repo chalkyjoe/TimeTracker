@@ -69,12 +69,14 @@ class TicketListItem extends Component {
         <Modal
             isOpen={this.state.editModalOpen}
             onRequestClose={this.closeEditModal}
+            ariaHideApp={false}
         >
           <EditTicket ticket={ticket} closeModal={this.closeEditModal} editTicket={this.props.EditTicket} duration={this.state.duration} />
         </Modal>
         <Modal
             isOpen={this.state.deleteModalOpen}
             onRequestClose={this.closeDeleteModal}
+            ariaHideApp={false}
         >
           <DeleteTicket ticket={ticket} closeModal={this.closeDeleteModal} DeleteTicket={this.props.DeleteTicket} duration={this.state.duration} />
         </Modal>
