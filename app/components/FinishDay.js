@@ -78,9 +78,9 @@ export default class FinishDay extends Component {
                     'orangered'
       };
       
-      segments.push(<li style={liStyle} className={style.ticket}>
-        <span className={style.ticketDescription}>{ticket.name}{ticket.summary ? ' - ' : null}{ticket.summary}</span>
-        <label>{TimeHelper.FormatTime(ticket.duration)}</label>
+      segments.push(<li key={i} style={liStyle} className={style.ticket}>
+        <span key={i} className={style.ticketDescription}>{ticket.name}{ticket.summary ? ' - ' : null}{ticket.summary}</span>
+        <label key={i}>{TimeHelper.FormatTime(ticket.duration)}</label>
       </li>);
     }
     return segments;

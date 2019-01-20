@@ -9,7 +9,7 @@ import moment from 'moment';
 export default class CurrentTicket extends Component {
 
   static propTypes = {
-    ticket: PropTypes.object.isRequired,
+    ticket: PropTypes.object,
     incrementTime: PropTypes.func.isRequired
   };
 

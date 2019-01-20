@@ -49,7 +49,7 @@ export default class App extends Component {
     let segments = [];
     var percent = 0;
     for (let i = 0; i < tickets.length; i++) {
-      segments.push(<TicketListItem ticket={tickets[i]} EditTicket={actions.editTicket} DeleteTicket={actions.deleteTicket} />);
+      segments.push(<TicketListItem key={i} ticket={tickets[i]} EditTicket={actions.editTicket} DeleteTicket={actions.deleteTicket} />);
     }
     return segments;
   }
