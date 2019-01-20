@@ -14,21 +14,13 @@
 	text-align: center;
     color: hsl(0, 0%, 100%);
 	background-color: hsla(0, 0%, 0%, 0.25);
-	pointer-events: none;
+	border-radius: 20px;
+	display: block;
+	cursor:pointer;
 }
 .progress span {
 	display: inline-block;
 	height: 20px;
 	margin:0;
 	border-right:1px solid hsl(0, 0%, 85%);
-}
-.progressOverlay
-{
-	position: absolute;
-	margin: 0;
-	top:0;
-	left:0;
-	right:0;
-	background: none;
-	pointer-events: none;
 }

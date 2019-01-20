@@ -18,7 +18,8 @@ export default class ProgressBar extends Component {
     this.state = {
       totalTime: 0,
       dayLength: '8h',
-      baseURL: ''
+      baseURL: '',
+      cycleNo: 0
     }
     this.tick = this.tick.bind(this);
     this.intervalHandle = setInterval(this.tick, 400);
@@ -58,7 +59,7 @@ export default class ProgressBar extends Component {
       if (i != 0)
       {
         gradient += `, ${tickets[i-1].colour} ${percent}%`;
-      } else {
+      } else { //If last in sequence, fill with transparent bar
         gradient += ', rgba(0, 0, 0, 0) 0)';
       }
     }
@@ -67,8 +68,7 @@ export default class ProgressBar extends Component {
       background: gradient,
       borderRadius: '20px'
     };
-    segments.push(<span style={style}></span>);
-    return segments;
+    return <span style={style}></span>;
   }
   getTotalTime = () => {
     const {tickets} = this.props;
@@ -76,6 +76,27 @@ export default class ProgressBar extends Component {
     var percent = 0;
     tickets.map(function(ticket) { percent += ticket.width })
     return TimeHelper.FormatTime(this.state.duration) + '/' + dayLength + ' (' + Math.floor(percent) + '%)';
+  }
+  getRemainingTime = () => {
+    return 'Remaining: ' + TimeHelper.FormatTime(TimeHelper.ParseTime(this.state.dayLength) - this.state.duration);
+  }
+  getPercent = () => {
+    const {tickets} = this.props;
+    var percent = 0;
+    tickets.map(function(ticket) { percent += ticket.width })
+    return Math.floor(percent) + '%';
+  }
+  getProgressLabel = () => {
+    var cycle = [ 
+      this.getTotalTime(),
+      this.getRemainingTime(),
+      this.getPercent()
+    ]
+    var cycleNo = this.state.cycleNo%cycle.length;
+    return cycle[cycleNo];
+  }
+  onClick = () => {
+    this.setState({cycleNo: this.state.cycleNo+1})
   }
   getTimeStart = () => {
     var tickets = this.props.tickets;
@@ -100,10 +121,9 @@ export default class ProgressBar extends Component {
         <span style={{float: 'right', fontWeight: 'bold'}}>{this.getTimeEnd()}</span>
         <div style={{position: 'relative'}}>
           <div className={style.progress}>
-            <label>{this.getTotalTime()}</label>
+            <label onClick={this.onClick}>{this.getProgressLabel()}</label>
             {elements}
           </div>
-          <div className={style.progress + ' ' + style.progressOverlay}></div>
         </div>
       </div>
     );
