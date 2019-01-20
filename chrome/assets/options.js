@@ -31,7 +31,7 @@ function save_options() {
         showFieldValidation('dayLength', dayLengthValid, 'Day Length invalid.');
         showFieldValidation('meetingTicketNo', meetingTicketNoValid, 'Not a ticket ID');
 
-        if (!meetingTicketNoValid || !dayLengthValid) return;
+        if (!meetingTicketNoValid || !dayLengthValid || !canConnect) return;
 
         chrome.storage.sync.set({
           username: username.val(),
