@@ -91,10 +91,12 @@ export default class ProgressBar extends Component {
       'Remaining: ' + TimeHelper.FormatTime(TimeHelper.ParseTime(this.state.dayLength) - this.state.duration),
       this.getPercent()
     ];
-    return cycle[this.state.cycleNo];
+
+    var cycleNo = this.state.cycleNo%cycle.length
+    return cycle[cycleNo];
   }
   onClick = () => {
-    this.setState({cycleNo: (this.state.cycleNo+1)%cycle.length}, () => {
+    this.setState({cycleNo: this.state.cycleNo+1}, () => {
       Storage.set({cycleNo: this.state.cycleNo});
     });
   }
