@@ -5,17 +5,18 @@ html
     meta(charset='UTF-8')
     title Redux TodoMVC Example (Popup)
     style.
-      * { box-sizing: border-box; }
+      * { box-sizing: border-box; color: hsl(0, 0%, 20%) }
       body { background-color: hsl(0, 0%, 50%) }
       input { display: block; width: 100%; padding: 1rem; }
       label { font-weight: bold; font-size: 14px; padding: .25rem }
       p { margin: 0; padding: .25rem;}
+      h1, h2 { text-align: center; margin: .1rem 0; color: hsl(0, 0%, 40%)!important}
       .container {
         width: 25%;
         margin: auto;
         background-color: hsl(0, 0%, 95%);
         padding: 1rem;
-        border: 5px solid hsl(0, 0%, 10%);
+        border: 5px solid hsl(0, 0%, 40%);
       }
       button { 
         margin: .25rem auto;
@@ -26,9 +27,19 @@ html
       .error { color: red; display:none; }
       .inputError { border: 1px solid red }
       .inputSuccess { border: 1px solid green }
+      .welcomeText {
+        display: none; padding: 1rem;
+        background-color: hsl(203, 40%, 67%);
+        border: 3px solid hsl(0, 0%, 40%);
+        margin: .5rem 0;
+        font-size: 16px;
+      }
   body
     div.container
       h1 TimeTracker Options
+      div.welcomeText
+        h2 Welcome to TimeTracker.
+        p Please take your time to configure your experience as necessary. Once you submit this form you will gain access to the TimeTracker extension.
       div
         label(name="corsEverywhere") Cors Everywhere proxy URL
         span.corsEverywhere.error

@@ -53,12 +53,14 @@ function save_options() {
           setTimeout(function() {
             status.html('');
           }, 2000);
+          restore_options();
         });
       });
     }
 
     function restore_options() {
       canConnect = errorCode == null;
+      $('.welcomeText').toggle(firstTime != null);
       showFieldValidation('corsEverywhere', canConnect, 'Cannot connect to Atlassian.');
       showFieldValidation('username', canConnect, 'Cannot connect to Atlassian.');
       showFieldValidation('accessCode', canConnect, 'Cannot connect to Atlassian.');
