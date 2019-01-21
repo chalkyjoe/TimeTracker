@@ -17,8 +17,7 @@ import * as TempoAPI from '../utils/TempoAPI';
 
 @connect(
   state => ({
-    tickets: state.tickets,
-    canConnect: false
+    tickets: state.tickets
   }),
   dispatch => ({
     actions: bindActionCreators(TicketActions, dispatch)
@@ -31,26 +30,13 @@ export default class App extends Component {
   };
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      canConnect: false
-    }
+    
     Config.getDayLength().then(dayLength => {
       if (dayLength === undefined)
       {
         chrome.tabs.create({ url: '/options.html?firstTime=true' });
       }
     })
-    if (this.state.canConnect == false)
-    {
-      var self = this;
-      TempoAPI.GetSelf().then(response => {
-         if (response.status !== 200) {
-            chrome.tabs.create({ url: '/options.html?errorCode=' + response.status });
-         } else {
-          self.setState({canConnect: true});
-         }
-      })
-    }
   }
   CreateTicketList = (actions) => {
     const { tickets } = this.props;

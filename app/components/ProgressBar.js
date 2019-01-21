@@ -24,13 +24,7 @@ export default class ProgressBar extends Component {
     }
     this.tick = this.tick.bind(this);
     this.intervalHandle = setInterval(this.tick, 400);
-    Config.getBaseUrl().then(url => {
-      this.setState({baseURL: url});
-    })
-    Config.getDayLength().then(length => {
-      this.setState({dayLength: length});
-    });
-    Storage.get({cycleNo: 0}).then(items => {
+    Storage.get({cycleNo: 0, dayLength: 0, baseURL: ''}).then(items => {
       this.setState(items)
     });
   }

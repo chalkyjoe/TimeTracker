@@ -6,12 +6,13 @@ import buttonStyle from './Buttons.css';
 import _ from 'underscore';
 import * as TimeHelper from '../utils/TimeHelper';
 import * as TempoAPI from '../utils/TempoAPI';
+import * as TicketTypes from '../constants/TicketTypes';
+import * as Config from '../utils/Config';
 
 export default class FinishDay extends Component {
 
   static propTypes = {
     finishDay:  PropTypes.func.isRequired,
-    ticketCount: PropTypes.number.isRequired,
     tickets: PropTypes.array.isRequired,
     uploadTicket: PropTypes.func.isRequired
   };
@@ -19,12 +20,17 @@ export default class FinishDay extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      modalOpen: false
+      modalOpen: false,
+      dayLength: 0
     };
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+
+    Config.getDayLength().then(length => {
+      this.setState({dayLength: length});
+    });
   }
 
   openModal() {
@@ -32,7 +38,6 @@ export default class FinishDay extends Component {
   }
 
   afterOpenModal() {
-    // references are now sync'd and can be accessed.
     this.subtitle.style.color = '#f00';
   }
 
@@ -46,18 +51,17 @@ export default class FinishDay extends Component {
 
   handleOnSubmit = () => {
     var self = this;
-    _.forEach(this.props.tickets.filter(ticket => ticket.uploaded != true), function(ticket) {
+    _.forEach(this.props.tickets.filter(ticket => ticket.uploaded != true && ticket.type != TicketTypes.BREAK), function(ticket) {
       TempoAPI.LogWork(ticket).then(function(response) {
        if (response.status == 201) { 
         self.props.uploadTicket(ticket, true);
        } else {
         response.json().then(function(res) {
           self.props.uploadTicket(ticket, false);
-          console.log(res) 
-        })
+        });
        }
      });
-    })
+    });
   }
 
   finishDay = () => {
@@ -65,8 +69,25 @@ export default class FinishDay extends Component {
     this.props.closeModal();
   }
 
+  getTotalTime = () => {
+    let tickets = this.props.tickets;
+    var dayLength = TimeHelper.ParseTime(this.state.dayLength);
+    var duration = 0;
+    var modifier = '-';
+    var timeStyle = {color: 'red'};
+    tickets.map(function(ticket) { duration += ticket.duration; });
+    var surplus = TimeHelper.FormatTime(dayLength - duration);
+    if (surplus == '0s')
+    {
+      surplus = TimeHelper.FormatTime(duration - dayLength);
+      modifier = '+';
+      timeStyle.color = 'green';
+    }
+    return <p style={timeStyle}>Time Completed: {TimeHelper.FormatTime(duration)} ({modifier}{surplus})</p>;
+  }
+
   CreateTable = () => {
-    const { tickets } = this.props;
+    let tickets = this.props.tickets;
     let segments = [];
     var percent = 0;
     for (let i = 0; i < tickets.length; i++) {
@@ -77,11 +98,13 @@ export default class FinishDay extends Component {
                     ticket.uploaded === null ? 'orangered' :
                     'orangered'
       };
-      
-      segments.push(<li key={i} style={liStyle} className={style.ticket}>
-        <span key={i} className={style.ticketDescription}>{ticket.name}{ticket.summary ? ' - ' : null}{ticket.summary}</span>
-        <label key={i}>{TimeHelper.FormatTime(ticket.duration)}</label>
-      </li>);
+      if (ticket.type != TicketTypes.BREAK)
+      {
+        segments.push(<li key={'fd' + i} style={liStyle} className={style.ticket}>
+          <span key={'fd1' + i} className={style.ticketDescription}>{ticket.name}{ticket.summary ? ' - ' : null}{ticket.summary}</span>
+          <label key={'fd2' + i}>{TimeHelper.FormatTime(ticket.duration)}</label>
+        </li>);
+      }
     }
     return segments;
   }
@@ -89,11 +112,13 @@ export default class FinishDay extends Component {
   render() {
     return (
       <span>
-      <button className={style.finishDay} onClick={this.handleOnClick} disabled={!this.props.ticketCount != 0}>Finish Day</button>
+      <button className={style.finishDay} onClick={this.handleOnClick} disabled={this.props.tickets.length == 0}>Finish Day</button>
       <Modal
           isOpen={this.state.modalOpen}
         >
         <h1>Finish Day</h1>
+        <p>Tickets completed: {this.props.tickets.length}</p>
+        {this.getTotalTime()}
         <ul className={style.container}>
           {this.CreateTable()}
         </ul>

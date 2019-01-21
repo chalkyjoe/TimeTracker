@@ -5,8 +5,8 @@ export function incrementTime(id, dayLength)
 	return { type: types.INCREMENT_TIME, id, dayLength };
 }
 
-export function addTicket(name, colour, summary) {
-	return { type: types.ADD_TICKET, name, colour, summary };
+export function addTicket(name, colour, summary, ticketType) {
+	return { type: types.ADD_TICKET, name, colour, summary, ticketType };
 }
 
 export function deleteTicket(id) {

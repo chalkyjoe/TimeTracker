@@ -66,11 +66,11 @@ function save_options() {
       showFieldValidation('accessCode', canConnect, 'Cannot connect to Atlassian.');
       showFieldValidation('baseURL', canConnect, 'Cannot connect to Atlassian.');
       chrome.storage.sync.get({
-        username: 'firstname.lastname@udgroup.co.uk',
+        username: 'firstname.lastname@companyname.co.uk',
         accessCode: '',
         meetingTicketNo: 'UDGINT1-6',
         dayLength: '8h',
-        baseURL: 'udgroup',
+        baseURL: 'companyname.atlassian.net',
         corsEverywhere: 'localhost:8080',
         canConnect: false
       }, function(items) {
@@ -83,11 +83,11 @@ function save_options() {
       });
     }
     function restore_defaults() {
-      $('#username').val('firstname.lastname@udgroup.co.uk');
+      $('#username').val('firstname.lastname@companyname.co.uk');
       $('#accessCode').val('');
       $('#meetingTicketNo').val('UDGINT1-6');
       $('#dayLength').val('8h');
-      $('#baseURL').val('udgroup');
+      $('#baseURL').val('companyname.atlassian.net');
       $('#corsEverywhere').val('localhost:8080')
     }
     function showFieldValidation(name, isValid, errorMessage)
@@ -113,7 +113,7 @@ function save_options() {
     function validate_token(corsEverywhere, username, accessCode, baseURL, callback)
     {
         //var request = require('request');
-        var url = `https://${baseURL}.atlassian.net/rest/api/3/myself`;
+        var url = `https://${baseURL}/rest/api/3/myself`;
         var token = btoa(`${username}:${accessCode}`);
         var xhr = new XMLHttpRequest();
         xhr.withCredentials = true;

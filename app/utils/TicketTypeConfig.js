@@ -19,7 +19,6 @@ export function getTicketTypeConfig(ticketType) {
 						    var ticketNo = url.replace(baseUrl, '');
 						    if (!url.includes(baseUrl)) return callback({ canChange: false });
 						    TempoAPI.GetTicketDescription(ticketNo).then(response => {
-						    	console.log(response);
 						    	if (response == 201) return callback({ canChange: url.includes(baseUrl), ticketNo });
 					    		return response.json();
 					    	}).then(res => {
@@ -34,7 +33,7 @@ export function getTicketTypeConfig(ticketType) {
 				},
 				onClick: function(actions, state, props) {
 					actions.completeCurrentTicket();
-	    			actions.addTicket(state.ticketNo, ticketColour, state.summary);
+	    			actions.addTicket(state.ticketNo, ticketColour, state.summary, ticketType);
 				}
 			}
 			break;
@@ -50,7 +49,7 @@ export function getTicketTypeConfig(ticketType) {
 				},
 				onClick: function(actions, state, props) {
 					actions.completeCurrentTicket();
-	    			actions.addTicket(state.ticketNo, function() { return '#ff0012' }, state.summary );
+	    			actions.addTicket(state.ticketNo, function() { return '#ff0012' }, state.summary, ticketType );
 				}
 			}
 			break;
@@ -69,7 +68,7 @@ export function getTicketTypeConfig(ticketType) {
 			},
 			onClick: function(actions, state, props) {
 				actions.completeCurrentTicket();
-    			actions.addTicket(state.ticketNo, function() { return '#606dbc' }, state.summary);
+    			actions.addTicket(state.ticketNo, function() { return '#606dbc' }, state.summary, ticketType);
 			}
 		}
 	}
