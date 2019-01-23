@@ -26,9 +26,12 @@ export default class CurrentTicket extends Component {
     const { ticket } = this.props;
     if (!ticket) return;
     if (ticket.type == TicketTypes.NOT_SELECTED) return '#';
-    Config.getBaseUrl().then(url => {
-      chrome.tabs.create({ url: 'http://' + url + '/browse/' + ticket.name });
-    });
+    if (this.props.ticket.type != TicketTypes.BREAK)
+    {
+      Config.getBaseUrl().then(url => {
+        chrome.tabs.create({ url: 'http://' + url + '/browse/' + ticket.name });
+      });
+    }
   }
 
   tick() {
