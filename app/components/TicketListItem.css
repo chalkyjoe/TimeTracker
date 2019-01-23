@@ -4,6 +4,7 @@
 	padding: .25rem;
 	box-shadow: 1px 1px 1px 1px black;
     position: relative;
+    cursor:pointer;
 }
 .listItem label {
 	background-color: white;
