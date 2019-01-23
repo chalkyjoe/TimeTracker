@@ -43,7 +43,7 @@ const actionsMap = {
         duration: 0,
         durationSaved: 0,
         type: action.ticketType,
-        colour: action.colour(state.length),
+        colour: action.colour(id),
         width: 0,
         uploaded: null,
         summary: action.summary
@@ -51,17 +51,33 @@ const actionsMap = {
     }
   },
   [ActionTypes.DELETE_TICKET](state, action) {
-    return state.filter(ticket =>
-      ticket.id !== action.id
+    if (action.merge){
+      var duration = action.ticket.duration + action.ticket.durationSaved;
+      state = state.map(ticket => (ticket.id === action.merge.id ?
+          Object.assign({}, ticket, { durationSaved: parseInt(ticket.durationSaved) + parseInt(duration), timeResumed: moment().unix(), duration: parseInt(ticket.durationSaved) + parseInt(duration)  }) :
+          ticket)
+      );
+    }
+    return state.filter(ticket => 
+      { return ticket != action.ticket }
     );
   },
   [ActionTypes.EDIT_TICKET](state, action) {
+    console.log(action.merge);
+    if (action.merge) {
+      var difference = action.ticket.duration - action.time;
+      var duration = action.merge.duration + difference;
+      state = state.map(ticket => (ticket.id === action.merge.id ?
+          Object.assign({}, ticket, { durationSaved: parseInt(duration), timeResumed: moment().unix(), duration: parseInt(duration)  }) :
+          ticket)
+      );
+    }
     return state.map(ticket =>
-      (ticket.id === action.id ?
+      (ticket.id === action.ticket.id ?
         Object.assign({}, ticket, { 
           durationSaved: action.time,
           timeResumed: moment().unix(),
-          duration: moment().unix() - (ticket.timeResumed == 0 ? ticket.timeStarted : ticket.timeResumed) + ticket.durationSaved
+          duration: action.time
         }) :
         ticket)
     ); 

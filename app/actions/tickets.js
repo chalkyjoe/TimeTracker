@@ -9,12 +9,12 @@ export function addTicket(name, colour, summary, ticketType) {
 	return { type: types.ADD_TICKET, name, colour, summary, ticketType };
 }
 
-export function deleteTicket(id) {
-	return { type: types.DELETE_TICKET, id };
+export function deleteTicket(ticket, merge) {
+	return { type: types.DELETE_TICKET, ticket, merge };
 }
 
-export function editTicket(id, time) {
-	return { type: types.EDIT_TICKET, id, time };
+export function editTicket(ticket, time, merge) {
+	return { type: types.EDIT_TICKET, ticket, time, merge };
 }
 export function completeCurrentTicket() {
 	return { type: types.COMPLETE_TICKET };
