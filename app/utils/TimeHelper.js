@@ -1,5 +1,10 @@
 export function FormatTime(time) {
-	if (time <= 0) return '0s';
+	var modifier = '';
+	if (time < 0) 
+	{
+		modifier = '-';
+		time *= -1;
+	}
     const seconds_in_hour = 3600;
     const seconds_in_minute = 60;
     var hours = time/seconds_in_hour;
@@ -7,7 +12,7 @@ export function FormatTime(time) {
     var minutes = (time/seconds_in_minute)%seconds_in_minute;
     minutes = minutes >= 1 || hours != '' ? Math.floor(minutes) + 'm ' : '';
     var seconds = time%seconds_in_minute + 's';
-    return (hours + minutes + seconds);
+    return modifier + (hours + minutes + seconds);
 }
 
 export function ParseTime(strTime) {

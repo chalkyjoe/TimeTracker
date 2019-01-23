@@ -37,15 +37,21 @@ export default class App extends Component {
         chrome.tabs.create({ url: '/options.html?firstTime=true' });
       }
     })
+    chrome.browserAction.setBadgeText({
+      'text': '' 
+    });
   }
   CreateTicketList = (actions) => {
     const { tickets } = this.props;
     let segments = [];
     var percent = 0;
     for (let i = 0; i < tickets.length; i++) {
-      segments.push(<TicketListItem key={'r' + i} ticket={tickets[i]} EditTicket={actions.editTicket} DeleteTicket={actions.deleteTicket} />);
+      segments.push(<TicketListItem key={'r' + i} ticket={tickets[i]} tickets={tickets} actions={actions} />);
     }
     return segments;
+  }
+  debug = () => {
+    console.log(this.props.tickets);
   }
   getCurrentTicket = () =>
   {
@@ -59,7 +65,7 @@ export default class App extends Component {
     const { tickets, actions } = this.props;
     return (
       <div className={style.progress}>
-        <h1>TimeTracker</h1>
+        <h1 onClick={this.debug}>TimeTracker</h1>
         <CurrentTicket ticket={this.props.tickets.find(function (element) { return element.completed == false})} incrementTime={actions.incrementTime} updateProgress={actions.updateProgress}/>
         <ProgressBar tickets={tickets} />
         <ChangeTicket actions={actions} ticketType={TicketTypes.TICKET} text="Change to this Ticket"  />
