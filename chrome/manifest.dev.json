@@ -9,9 +9,9 @@
     "default_popup": "popup.html"
   },
   "icons": {
-    "16": "img/icon-128.png",
-    "48": "img/icon-128.png",
-    "128": "img/icon-128.png"
+    "16": "img/icon-64.png",
+    "48": "img/icon-64.png",
+    "128": "img/icon-64.png"
   },
   "web_accessible_resources": [
     "inject.html"
@@ -19,6 +19,6 @@
   "background": {
     "page": "background.html"
   },
-  "permissions": [ "contextMenus", "management", "tabs", "storage", "https://github.com/*", "notifications" ],
+  "permissions": [ "contextMenus", "management", "tabs", "storage", "https://udgroup.atlassian.net/*", "notifications" ],
   "content_security_policy": "default-src 'self' http://localhost:8080; script-src 'self' http://localhost:3000 https://localhost:3000 'unsafe-eval'; connect-src http://localhost:3000 http://localhost:8080; style-src * 'unsafe-inline' 'self' blob:; img-src 'self' data:;"
 }
