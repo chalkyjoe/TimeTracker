@@ -16,7 +16,7 @@ export function FormatTime(time) {
 }
 
 export function ParseTime(strTime) {
-	if (!strTime) return null;
+	if (!ValidateTime(strTime) || !strTime) return null;
 	var timeArray = strTime.match(/\d+[hms]/g);
 	var hours = ReturnTimeBySuffix(timeArray, 'h');
 	var minutes = ReturnTimeBySuffix(timeArray, 'm');
