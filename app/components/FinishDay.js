@@ -73,17 +73,16 @@ export default class FinishDay extends Component {
     let tickets = this.props.tickets;
     var dayLength = TimeHelper.ParseTime(this.state.dayLength);
     var duration = 0;
-    var modifier = '-';
+    var modifier = '';
     var timeStyle = {color: 'red'};
     tickets.map(function(ticket) { duration += ticket.duration; });
-    var surplus = TimeHelper.FormatTime(dayLength - duration);
-    if (surplus == '0s')
+    var difference = duration - dayLength;
+    if (difference > 0)
     {
-      surplus = TimeHelper.FormatTime(duration - dayLength);
       modifier = '+';
       timeStyle.color = 'green';
     }
-    return <p style={timeStyle}>Time Completed: {TimeHelper.FormatTime(duration)} ({modifier}{surplus})</p>;
+    return <p style={timeStyle}>Time Completed: {TimeHelper.FormatTime(duration)} ({modifier}{TimeHelper.FormatTime(difference)})</p>;
   }
 
   CreateTable = () => {
