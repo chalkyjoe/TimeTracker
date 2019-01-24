@@ -68,22 +68,14 @@ export default class ProgressBar extends Component {
     };
     return <span style={style}></span>;
   }
-  getTotalTime = () => {
-    const {tickets} = this.props;
-    var dayLength = this.state.dayLength;
-    return TimeHelper.FormatTime(this.state.duration) + '/' + dayLength + ' (' + this.getPercent() + ')';
-  }
-  getPercent = () => {
-    const {tickets} = this.props;
-    var percent = 0;
-    tickets.map(function(ticket) { percent += ticket.width })
-    return Math.floor(percent) + '%';
-  }
   getProgressLabel = () => {
+    var tickets = this.props.tickets;
+    var dayLength = this.state.dayLength;
+    var duration = this.state.duration;
     var cycle = [ 
-      this.getTotalTime(),
-      'Remaining: ' + TimeHelper.FormatTime(TimeHelper.ParseTime(this.state.dayLength) - this.state.duration),
-      this.getPercent()
+      TimeHelper.FormatTime(duration) + '/' + dayLength + ' (' + TimeHelper.GetPercent(tickets) + ')',
+      'Remaining: ' + TimeHelper.FormatTime(TimeHelper.ParseTime(dayLength) - duration),
+      TimeHelper.GetPercent(tickets)
     ];
 
     var cycleNo = this.state.cycleNo%cycle.length

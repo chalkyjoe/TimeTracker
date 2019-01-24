@@ -29,6 +29,16 @@ export function ValidateTime(strTime) {
 	return regex.test(strTime);
 }
 
+export function GetPercent(tickets) {
+    var percent = 0;
+    tickets.map(function(ticket) { percent += ticket.width })
+    return Math.floor(percent) + '%';
+}
+
+export function GetTotalTime(tickets, duration, dayLength) {
+    return this.FormatTime(duration) + '/' + dayLength + ' (' + this.GetPercent(tickets) + ')';
+}
+
 function ReturnTimeBySuffix(timeArray, suffix)
 {
 	var result = timeArray.find(function(element) { return element.includes(suffix) });
