@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import style from './EditTicket.css';
 import buttonStyle from './Buttons.css';
 import moment from 'moment';
+import * as TimeHelper from '../utils/TimeHelper';
 
 export default class DeleteTicket extends Component {
 
@@ -34,8 +35,23 @@ export default class DeleteTicket extends Component {
     }
     return ticketOptions;
   }
+  getDifference = () => {
+    var selectedTicket = this.props.tickets[this.state.selectedTicket];
+    var ticket = this.props.ticket;
+    if (!selectedTicket) return '';
+    return (parseInt(ticket.duration) - TimeHelper.ParseTime(this.state.duration));
+  }
   onChange = (event) => {
     this.setState({selectedTicket: event.target.value});
+  }
+  getMergeTimeTotal = () => {
+    var selectedTicket = this.props.tickets[this.state.selectedTicket];
+    var ticket = this.props.ticket;
+    if (!selectedTicket) return '';
+    var total = selectedTicket.duration + (this.getDifference());
+    var isValid = total > 0;
+    if (this.state.isMergeValid != isValid) this.setState({isMergeValid: isValid})
+    return TimeHelper.FormatTime(total);
   }
   render() {
     const { ticket } = this.props;
@@ -49,6 +65,8 @@ export default class DeleteTicket extends Component {
           <option value="">None</option>
           {this.getTickets()}
         </select>
+        <p className={style.editTicketInformation}>Merge Ticket Time</p>
+        <input disabled className={style.editTimeInput} value={this.getMergeTimeTotal()} />
         <div className={buttonStyle.buttons}>
           <button onClick={this.handleOnSubmit} className={buttonStyle.submit}>Delete</button>
           <button onClick={this.props.closeModal}>Close</button>
