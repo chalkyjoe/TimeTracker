@@ -12,7 +12,6 @@ export default class EditTicket extends Component {
   static propTypes = {
     ticket: PropTypes.object.isRequired,
     closeModal: PropTypes.func.isRequired,
-    editTicket: PropTypes.func.isRequired,
     duration: PropTypes.string.isRequired
   };
 
@@ -21,12 +20,13 @@ export default class EditTicket extends Component {
     this.state = {
       duration: this.props.duration,
       isValid: true,
+      isMergeValid: true,
       selectedTicket: null
     };
   }
 
   handleChange = (event) => {
-    this.setState({isValid: TimeHelper.ValidateTime(event.target.value)});
+    this.setState({isValid: event.target.value ? TimeHelper.ValidateTime(event.target.value) : false});
     this.setState({duration: event.target.value});
   }
 
@@ -54,15 +54,25 @@ export default class EditTicket extends Component {
   getAssignLabel = () => {
     var ticket = this.props.ticket;
     if (!this.state.duration || !this.state.isValid) return '0s'
-    return TimeHelper.FormatTime((parseInt(ticket.duration) - TimeHelper.ParseTime(this.state.duration)));
+    return TimeHelper.FormatTime(this.getDifference());
   }
   onChange = (event) => {
     this.setState({selectedTicket: event.target.value});
   }
   getMergeTimeTotal = () => {
     var selectedTicket = this.props.tickets[this.state.selectedTicket];
+    var ticket = this.props.ticket;
     if (!selectedTicket) return '';
-    return TimeHelper.FormatTime((parseInt(selectedTicket.duration) + TimeHelper.ParseTime(this.state.duration)));
+    var total = selectedTicket.duration + (this.getDifference());
+    var isValid = total > 0;
+    if (this.state.isMergeValid != isValid) this.setState({isMergeValid: isValid})
+    return TimeHelper.FormatTime(total);
+  }
+  getDifference = () => {
+    var selectedTicket = this.props.tickets[this.state.selectedTicket];
+    var ticket = this.props.ticket;
+    if (!selectedTicket) return '';
+    return (parseInt(ticket.duration) - TimeHelper.ParseTime(this.state.duration));
   }
   render() {
     const { ticket } = this.props;
@@ -83,7 +93,7 @@ export default class EditTicket extends Component {
         <p className={style.editTicketInformation}>Merge Ticket Time</p>
         <input disabled className={style.editTimeInput} value={this.getMergeTimeTotal()} />
         <div className={buttonStyle.buttons}>
-          <button onClick={this.handleOnSubmit} disabled={!this.state.isValid} className={buttonStyle.submit}>Submit</button>
+          <button onClick={this.handleOnSubmit} disabled={!this.state.isValid || !this.state.isMergeValid} className={buttonStyle.submit}>Submit</button>
           <button onClick={this.props.closeModal}>Close</button>
         </div>
       </div>

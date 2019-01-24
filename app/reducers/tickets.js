@@ -52,7 +52,7 @@ const actionsMap = {
   },
   [ActionTypes.DELETE_TICKET](state, action) {
     if (action.merge){
-      var duration = action.ticket.duration + action.ticket.durationSaved;
+      var duration = action.merge.duration + action.ticket.durationSaved;
       state = state.map(ticket => (ticket.id === action.merge.id ?
           Object.assign({}, ticket, { durationSaved: parseInt(ticket.durationSaved) + parseInt(duration), timeResumed: moment().unix(), duration: parseInt(ticket.durationSaved) + parseInt(duration)  }) :
           ticket)
