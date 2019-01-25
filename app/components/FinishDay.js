@@ -21,7 +21,8 @@ export default class FinishDay extends Component {
     super(props, context);
     this.state = {
       modalOpen: false,
-      dayLength: 0
+      dayLength: 0,
+      readyToFinish: false
     };
 
     this.openModal = this.openModal.bind(this);
@@ -44,14 +45,17 @@ export default class FinishDay extends Component {
   closeModal() {
     this.setState({ modalOpen: false });
   }
-
+  checkDayFinishable = () => {
+    var uploadedTickets = this.props.tickets.filter(ticket =>  ticket.uploaded == true );
+    return uploadedTickets.length == this.props.tickets.filter(ticket => ticket.type != TicketTypes.BREAK).length
+  }
   handleOnClick = () => {
     this.setState({ modalOpen: true });
   }
 
   handleOnSubmit = () => {
     var self = this;
-    _.forEach(this.props.tickets.filter(ticket => ticket.uploaded != true && ticket.type != TicketTypes.BREAK), function(ticket) {
+    _.forEach(this.props.tickets.filter(ticket => ticket.uploaded == false && ticket.type != TicketTypes.BREAK), function(ticket) {
       TempoAPI.LogWork(ticket).then(function(response) {
        if (response.status == 201) { 
         self.props.uploadTicket(ticket, true);
@@ -65,6 +69,10 @@ export default class FinishDay extends Component {
   }
 
   finishDay = () => {
+    if (this.checkDayFinishable() == false)
+    {
+      if (confirm('Not all tickets have been submitted. Continue with finishing day?') == false) return;
+    }
     this.props.finishDay(this.props.tickets);
     this.props.closeModal();
   }
