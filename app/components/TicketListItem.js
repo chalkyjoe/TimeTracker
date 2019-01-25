@@ -39,7 +39,7 @@ class TicketListItem extends Component {
   determineTextColour = (color) =>{
     // Variables for red, green, blue values
     var r, g, b, hsp;
-    
+    console.log(color);
     // Check the format of the color, HEX or RGB?
     if (color.match(/^rgb/)) {
 
@@ -69,13 +69,13 @@ class TicketListItem extends Component {
     );
 
     // Using the HSP value, determine whether the color is light or dark
-    if (hsp>100.5) {
-
-        this.setState({text: {color: '#fff', textShadow: '1px 1px #000' }})
+    if (hsp>150) {
+      console.log(hsp);
+        this.setState({text: {color: '#000', textShadow: '1px 1px #fff' }});
     } 
     else {
-
-        this.setState({text: {color: '#000', textShadow: '1px 1px #fff' }});
+        this.setState({text: {color: '#fff', textShadow: '1px 1px #000' }})
+        
     }
   }
 
