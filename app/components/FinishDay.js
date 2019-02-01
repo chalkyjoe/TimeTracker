@@ -55,7 +55,7 @@ export default class FinishDay extends Component {
 
   handleOnSubmit = () => {
     var self = this;
-    _.forEach(this.props.tickets.filter(ticket => ticket.uploaded == false && ticket.type != TicketTypes.BREAK), function(ticket) {
+    _.forEach(this.props.tickets.filter(ticket => ticket.uploaded != true && ticket.type != TicketTypes.BREAK), function(ticket) {
       TempoAPI.LogWork(ticket).then(function(response) {
        if (response.status == 201) { 
         self.props.uploadTicket(ticket, true);
