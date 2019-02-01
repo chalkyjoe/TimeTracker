@@ -74,7 +74,7 @@ export default class App extends Component {
           <ChangeTicket actions={actions} ticketType={TicketTypes.BREAK} />
         </div>
         <FinishDay uploadTicket={actions.UploadTicket} completeTicket={actions.completeTicket} finishDay={actions.FinishDay} tickets={tickets} />
-        <div style={{position: 'relative'}}>
+        <div>
           <ul className={style.listContainer}>
             {this.CreateTicketList(actions)}
           </ul>

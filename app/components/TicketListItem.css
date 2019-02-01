@@ -1,23 +1,27 @@
 .listItem {
-	text-shadow: 1px 1px black;
 	margin: .5rem;
 	padding: .25rem;
 	box-shadow: 1px 1px 1px 1px black;
     position: relative;
     cursor:pointer;
+    background-color: hsl(0, 0%, 90%);
+    border: 1px solid hsl(0, 0%, 40%);
 }
 .listItem label {
-	background-color: white;
+	background-color: hsl(0, 0%, 40%);
 	border-radius: 10px;
 	margin-right: .5rem;
 	text-align: center;
-	padding: 0 .5rem;
+	padding: .1rem .75rem;
+	text-shadow: 1px 1px black;
+	color: white;
 }
 .ticketDescription {
-	width: 75%;
+	width: 72%;
 	height: 20px;
 	display: block;
-	color: white;
+	color: hsl(0, 0%, 20%);
+	font-weight:bold;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -31,7 +35,7 @@
 	cursor: pointer;
 }
 .pushRight path {
-	color: white!important;
+	color: black!important;
 }
 .menu {
 	background-color: white;
@@ -39,7 +43,6 @@
 	padding-left: 0;
 	width: auto;
 	position: absolute;
-	right: 0;
 	z-index: 100;
 }
 .menu li {

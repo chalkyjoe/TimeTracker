@@ -29,58 +29,16 @@ class TicketListItem extends Component {
       deleteModalOpen: false,
       duration: 0,
       isValid: true,
-      color: '#fff'
+      mousex: 0,
+      mousey: 0
     };
   }
-  componentDidMount() {
-    this.determineTextColour(this.props.ticket.colour);    
-  }
 
-  determineTextColour = (color) =>{
-    // Variables for red, green, blue values
-    var r, g, b, hsp;
-    console.log(color);
-    // Check the format of the color, HEX or RGB?
-    if (color.match(/^rgb/)) {
-
-        // If HEX --> store the red, green, blue values in separate variables
-        color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
-        
-        r = color[1];
-        g = color[2];
-        b = color[3];
-    } 
-    else {
-        
-        // If RGB --> Convert it to HEX: http://gist.github.com/983661
-        color = +("0x" + color.slice(1).replace( 
-        color.length < 5 && /./g, '$&$&'));
-
-        r = color >> 16;
-        g = color >> 8 & 255;
-        b = color & 255;
-    }
+  toggleMenuVisible = (e) => {
+    e.preventDefault();
+    console.log(e.pageX);
+    this.setState({menuOpen: !this.state.menuOpen, mousex: e.clientX, mousey: e.clientY})
     
-    // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
-    hsp = Math.sqrt(
-    0.299 * (r * r) +
-    0.587 * (g * g) +
-    0.114 * (b * b)
-    );
-
-    // Using the HSP value, determine whether the color is light or dark
-    if (hsp>150) {
-      console.log(hsp);
-        this.setState({text: {color: '#000', textShadow: '1px 1px #fff' }});
-    } 
-    else {
-        this.setState({text: {color: '#fff', textShadow: '1px 1px #000' }})
-        
-    }
-  }
-
-  toggleMenuVisible = () => {
-    this.setState({menuOpen: !this.state.menuOpen})
   }
 
   handleClickOutside = evt => {
@@ -120,32 +78,34 @@ class TicketListItem extends Component {
   render() {
     const { ticket, tickets } = this.props;
     return (
-      <li style={{background: ticket.colour}} className={style.listItem}>
-        <span onClick={this.handleClick} className={style.ticketDescription} style={this.state.text}>{ticket.name}{ticket.summary ? ' - ' : null}{ticket.summary}</span>
-        <div className={style.pushRight}>
-          <label>{TimeHelper.FormatTime(ticket.duration)}</label>
-          <FontAwesomeIcon icon={faEllipsisV} className={style.fa} onClick={this.toggleMenuVisible}/>
-          <ul className={style.menu} style={{display: this.state.menuOpen ? 'block' : 'none' }}>
-            <li onClick={this.handleChangeClick}>Switch</li>
-            <li onClick={this.handleEditClick}>Edit</li>
-            <li onClick={this.handleDeleteClick}>Delete</li>
-          </ul>
-        </div>
-        <Modal
-            isOpen={this.state.editModalOpen}
-            onRequestClose={this.closeEditModal}
-            ariaHideApp={false}
-        >
-          <EditTicket ticket={ticket} tickets={tickets} closeModal={this.closeEditModal} updateProgress={this.props.actions.updateProgress} editTicket={this.props.actions.editTicket} duration={this.state.duration} />
-        </Modal>
-        <Modal
-            isOpen={this.state.deleteModalOpen}
-            onRequestClose={this.closeDeleteModal}
-            ariaHideApp={false}
-        >
-          <DeleteTicket ticket={ticket} tickets={tickets} closeModal={this.closeDeleteModal} DeleteTicket={this.props.actions.deleteTicket} duration={this.state.duration} />
-        </Modal>
-      </li>
+      <div>
+        <li style={{borderLeft: '5px solid ' + ticket.colour}} className={style.listItem} onContextMenu={this.toggleMenuVisible}>
+          <span onClick={this.handleClick} className={style.ticketDescription}>{ticket.name}{ticket.summary ? ' - ' : null}{ticket.summary}</span>
+          <div className={style.pushRight}>
+            <label>{TimeHelper.FormatTime(ticket.duration)}</label>
+            <FontAwesomeIcon icon={faEllipsisV} className={style.fa} onClick={this.toggleMenuVisible}/>
+          </div>
+          <Modal
+              isOpen={this.state.editModalOpen}
+              onRequestClose={this.closeEditModal}
+              ariaHideApp={false}
+          >
+            <EditTicket ticket={ticket} tickets={tickets} closeModal={this.closeEditModal} updateProgress={this.props.actions.updateProgress} editTicket={this.props.actions.editTicket} duration={this.state.duration} />
+          </Modal>
+          <Modal
+              isOpen={this.state.deleteModalOpen}
+              onRequestClose={this.closeDeleteModal}
+              ariaHideApp={false}
+          >
+            <DeleteTicket ticket={ticket} tickets={tickets} closeModal={this.closeDeleteModal} DeleteTicket={this.props.actions.deleteTicket} duration={this.state.duration} />
+          </Modal>
+        </li>
+        <ul className={style.menu} style={{display: (this.state.menuOpen ? 'block' : 'none'), left: this.state.mousex + 'px', top: this.state.mousey + 'px' }}>
+          <li onClick={this.handleChangeClick}>Switch</li>
+          <li onClick={this.handleEditClick}>Edit</li>
+          <li onClick={this.handleDeleteClick}>Delete</li>
+        </ul>
+      </div>
     );
   }
 }
