@@ -69,6 +69,7 @@ export default class App extends Component {
         <CurrentTicket ticket={this.props.tickets.find(function (element) { return element.completed == false})} incrementTime={actions.incrementTime} updateProgress={actions.updateProgress}/>
         <ProgressBar tickets={tickets} />
         <ChangeTicket actions={actions} ticketType={TicketTypes.TICKET} text="Change to this Ticket"  />
+        <ChangeTicket actions={actions} ticketType={TicketTypes.TICKETNOASSIGN} text="Change without assigning"  />
         <div className={style.inlineButtons}>
           <ChangeTicket actions={actions} ticketType={TicketTypes.MEETING}/>
           <ChangeTicket actions={actions} ticketType={TicketTypes.BREAK} />

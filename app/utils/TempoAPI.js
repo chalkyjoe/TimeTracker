@@ -15,6 +15,24 @@ export function GetTicketDescription(name)
 	return GenericFetch(`issue/${name}?fields=summary`, null, 'GET');
 }
 
+export function AssignToSelf(name)
+{
+	var json = {
+		"accountId": "5b67f1c628214a29fb01c25a"
+	};
+	return GenericFetch(`issue/${name}/assignee`, json, 'PUT')
+}
+
+export function MoveToInDevelopment(name)
+{
+	var json = {
+		'transition': {
+				id: 41
+		}
+	};
+	return GenericFetch(`issue/${name}/transitions`, json, 'POST')
+}
+
 export function GetSelf()
 {
 	return GenericFetch('myself', null, 'GET');
@@ -33,7 +51,7 @@ function GenericFetch(endpoint, json, method)
 		    'Origin': '',
 		    'Access-Control-Allow-Origin': '*'
 		  },
-		  body: method == 'POST' ? JSON.stringify(json) : null
+		  body: method == 'POST' || method == 'PUT' ? JSON.stringify(json) : null
 		});
 	});
 }
