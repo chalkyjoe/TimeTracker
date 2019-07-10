@@ -8,7 +8,6 @@ I designed this Chrome extension to assist me in keeping my Timesheets up to dat
  - Actively track time taken on issues
  - Automatically assign tickets & move to "In Development"
  - Automatically scrape Jira ticket ID from current webpage & get ticket info
- - 
  - Edit time taken & move time between issues
  - Submit log of day to Jira Tempo timetracking plugin
  - Track progress of working day - how long until day finished, what time day started, what time day ends
