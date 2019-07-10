@@ -7,7 +7,6 @@ import * as Config from '../utils/Config';
 import * as TicketTypeConfig from '../utils/TicketTypeConfig';
 
 export default class Modal extends Component {
-
   static propTypes = {
 
   };

@@ -74,10 +74,16 @@ export default class EditTicket extends Component {
     if (!selectedTicket) return '';
     return (parseInt(ticket.duration) - TimeHelper.ParseTime(this.state.duration));
   }
+  onKeyPress = (e) => {
+    if (e.key === 'Enter' && this.state.isValid && this.state.isMergeValid)
+    {
+      this.handleOnSubmit();
+    }
+  }
   render() {
     const { ticket } = this.props;
     return (
-      <div>
+      <div onKeyPress={this.onKeyPress}>
         <h1>Edit Time</h1>
         <p className={style.editTicketInformation}><strong>Ticket Name</strong></p>
         <input disabled className={style.editTimeInput}  value={ticket.name + (ticket.summary ? ' - ' + ticket.summary : '')} />

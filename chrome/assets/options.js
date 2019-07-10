@@ -142,5 +142,8 @@ function save_options() {
     }
     $(document).ready(restore_options);
     $('#save').on('click', save_options);
+    $(document).keypress(function(e) {
+      if (e.keyCode === 13) save_options();
+    })
     $('#revert').on('click', restore_options);
     $('#restore').on('click', restore_defaults)

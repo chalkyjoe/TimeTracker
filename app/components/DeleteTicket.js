@@ -53,10 +53,16 @@ export default class DeleteTicket extends Component {
     if (this.state.isMergeValid != isValid) this.setState({isMergeValid: isValid})
     return TimeHelper.FormatTime(total);
   }
+  onKeyPress = (e) => {
+    if (e.key === 'Enter')
+    {
+      this.handleOnSubmit();
+    }
+  }
   render() {
     const { ticket } = this.props;
     return (
-      <div>
+      <div onKeyPress={this.onKeyPress}>
         <h1>Delete Ticket?</h1>
         <p className={style.editTicketInformation}><strong>Ticket Name</strong></p>
         <input disabled className={style.editTimeInput}  value={ticket.name + (ticket.summary ? ' - ' + ticket.summary : '')} />
