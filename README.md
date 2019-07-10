@@ -2,7 +2,7 @@
 
 I designed this Chrome extension to assist me in keeping my Timesheets up to date in the workplace.
 
-[![TimeTracker](https://imgur.com/V49WvEX.jpg)]
+![TimeTracker](https://imgur.com/V49WvEX.jpg)
 ## Features
 
  - Actively track time taken on issues
