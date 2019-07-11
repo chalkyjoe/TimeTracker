@@ -11,7 +11,7 @@ export function getTicketTypeConfig(ticketType) {
 			var ticketColour = ticketID => { return ColourStore.GetTicketColour(ticketID) };
 			return {
 				buttonColour: '#006644',
-				text: 'Change Ticket (No Move/Assign)',
+				text: 'Change Ticket Without Assigning',
 				setIsEnabled: TicketIsEnabled,
 				onClick: function(actions, state, props) {
 					actions.completeCurrentTicket();
@@ -72,6 +72,7 @@ export function getTicketTypeConfig(ticketType) {
 
 function TicketIsEnabled(type, callback)
 {
+	var ticketType = type;
 	chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, tabs => {
     	Config.getBaseUrl().then(baseUrlConfig => {
     		var url = tabs[0].url.split('?')[0].split('#')[0];
@@ -82,8 +83,13 @@ function TicketIsEnabled(type, callback)
 		    	if (response == 201) return callback({ canChange: url.includes(baseUrl), ticketNo });
 	    		return response.json();
 		    }).then(res => {
+		    	var canChange = true;
+		    	if (ticketType == TicketTypes.TICKET && res.fields.issuetype.name == 'Epic')
+		    	{
+		    		canChange = false
+		    	}
 			    callback({
-			      	canChange: true,
+			      	canChange,
 			      	ticketNo,
 			      	summary: res.fields.summary
 				});

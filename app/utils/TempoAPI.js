@@ -12,7 +12,7 @@ export function LogWork(ticket)
 
 export function GetTicketDescription(name)
 {
-	return GenericFetch(`issue/${name}?fields=summary`, null, 'GET');
+	return GenericFetch(`issue/${name}?fields=summary,issuetype`, null, 'GET');
 }
 
 export function AssignToSelf(name)
