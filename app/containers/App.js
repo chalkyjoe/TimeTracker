@@ -6,8 +6,10 @@ import TicketListItem from '../components/TicketListItem';
 import ChangeTicket from '../components/ChangeTicket';
 import ProgressBar from '../components/ProgressBar';
 import FinishDay from '../components/FinishDay';
+import ThemePicker from '../components/ThemePicker';
 import * as TicketTypes from '../constants/TicketTypes';
 import * as TicketActions from '../actions/tickets';
+import * as ThemeActions from '../actions/theme';
 import style from './App.css';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,16 +19,18 @@ import * as TempoAPI from '../utils/TempoAPI';
 
 @connect(
   state => ({
-    tickets: state.tickets
+    tickets: state.tickets,
+    theme: state.theme
   }),
   dispatch => ({
-    actions: bindActionCreators(TicketActions, dispatch)
+    actions: bindActionCreators({ ...TicketActions, ...ThemeActions }, dispatch)
   })
 )
 export default class App extends Component {
   static propTypes = {
     tickets: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    theme: PropTypes.string.isRequired
   };
   constructor(props, context) {
     super(props, context);
@@ -40,6 +44,16 @@ export default class App extends Component {
     chrome.browserAction.setBadgeText({
       'text': '' 
     });
+  }
+  componentDidMount() {
+    document.body.classList.add(this.props.theme);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.theme !== this.props.theme) {
+      document.body.classList.remove(prevProps.theme);
+      document.body.classList.add(this.props.theme);
+    }
   }
   CreateTicketList = (actions) => {
     const { tickets } = this.props;
@@ -62,9 +76,10 @@ export default class App extends Component {
     });
   }
   render() {
-    const { tickets, actions } = this.props;
+    const { tickets, actions, theme } = this.props;
     return (
       <div className={style.progress}>
+        <ThemePicker theme={theme} setTheme={actions.setTheme} />
         <h1 onClick={this.debug}>TimeTracker</h1>
         <CurrentTicket ticket={this.props.tickets.find(function (element) { return element.completed == false})} incrementTime={actions.incrementTime} updateProgress={actions.updateProgress}/>
         <ProgressBar tickets={tickets} />
